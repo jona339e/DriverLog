@@ -1,6 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Messaging;
-using DriverLog.Messages;
-using DriverLog.ViewModel;
+﻿using DriverLog.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,13 +16,14 @@ using System.Windows.Shapes;
 namespace DriverLog.View
 {
     /// <summary>
-    /// Interaction logic for DriversLog.xaml
+    /// Interaction logic for UserView.xaml
     /// </summary>
-    public partial class DriversLog : Window
+    public partial class UserView : Window
     {
-        public DriversLog()
+        public UserView()
         {
-            DataContext = new DriversLogViewModel();
+
+            DataContext = new UserViewModel();
             InitializeComponent();
         }
     }

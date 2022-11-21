@@ -4,13 +4,71 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DriverLog.View"
-        xmlns:vm="clr-namespace:DriverLog.ViewModel"
+        xmlns:viewModel="clr-namespace:DriverLog.ViewModel"
         mc:Ignorable="d"
-        Title="DriversLog" Height="450" Width="600" WindowStartupLocation="CenterScreen"
+        d:DataContext="{d:DesignInstance Type=viewModel:DriversLogViewModel}"
+        Title="DriversLog" Height="600" Width="900" WindowStartupLocation="CenterScreen"
         FontSize="18"
         Background="AntiqueWhite"
         >
     <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="*" />
+
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+            
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="20" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+
+            <RowDefinition Height="*" />
+            <RowDefinition Height="20" />
+        </Grid.RowDefinitions>
         
+        <!--Users-->
+        
+        <TextBlock Grid.Row="2" Grid.Column="2" 
+                   Text="Her kan du oprette, redigere og slette brugere"
+                   TextWrapping="Wrap" Width="200" Margin="10"
+                   />
+        
+        <Button Grid.Column="2" Grid.Row="3" Content="Gå til Bruger" 
+                Margin="10"/>
+        
+        <!--Vehicles-->
+        
+        <TextBlock Grid.Row="2" Grid.Column="3" 
+                   Text="Her kan du oprette, redigere og slette køretøjer"
+                   TextWrapping="Wrap" Width="200"
+                   Margin="10"/>
+        
+        <Button Grid.Column="3" Grid.Row="3" Content="Gå til Køretøj" 
+                Margin="10"/>
+        
+        <!--DriverLogs-->
+        
+        <TextBlock Grid.Row="2" Grid.Column="4" 
+                   Text="Her kan du oprette, redigere og slette KørselsLogs"
+                   TextWrapping="Wrap" Width="200" 
+                   Margin="10"/>
+        
+        <Button Grid.Column="4" Grid.Row="3" Content="Gå til KørselsLog" 
+                Margin="10"/>
+
+        <DataGrid Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="3"
+                  Height="200" Margin="10"/>
+
     </Grid>
 </Window>

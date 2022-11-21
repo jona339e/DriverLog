@@ -42,18 +42,18 @@
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
-                   Text="KørselsLog Login" TextAlignment="Center"
+                   Text="KørselsLog Login" TextAlignment="Center" MaxWidth="140"
                    Margin="0,3,0,10"/>
-        <TextBlock Grid.Row="2" Grid.Column="1" Text="Username:"
+        <TextBlock Grid.Row="2" Grid.Column="1" Text="Username:" MaxWidth="140"
                    FontWeight="Bold" TextAlignment="center" 
                    Margin="0,0,10,10"/>
-        <TextBlock Grid.Row="3" Grid.Column="1" Text="Password:"
+        <TextBlock Grid.Row="3" Grid.Column="1" Text="Password:" MaxWidth="140"
                    FontWeight="Bold" TextAlignment="center"
                    Margin="0,0,10,10"/>
-        <TextBox Grid.Row="2" Grid.Column="2"
+        <TextBox Grid.Row="2" Grid.Column="2" MaxWidth="140"
                  Margin="0,0,10,10" Text="{Binding UserName,UpdateSourceTrigger=PropertyChanged}"/>
         <TextBox Grid.Row="3" Grid.Column="2" Text="{Binding PassWord ,UpdateSourceTrigger=PropertyChanged}"
-                 Margin="0,0,10,10" />
+                 Margin="0,0,10,10" MaxWidth="140"/>
         <Button Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"  
                 MaxWidth="100" Content="Login" x:Name="LoginButton"
                 Margin="10,0,10,10"
