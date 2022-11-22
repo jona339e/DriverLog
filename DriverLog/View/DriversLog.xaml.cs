@@ -26,6 +26,26 @@ namespace DriverLog.View
         {
             DataContext = new DriversLogViewModel();
             InitializeComponent();
+
+            WeakReferenceMessenger.Default.Register<ChangeVisibilityMessage>(this, (reciver, message) =>
+            {
+                if (message.Value == "Hide")
+                {
+                    this.Visibility= Visibility.Hidden;
+                }
+                else if (message.Value == "Show")
+                {
+                    this.Visibility = Visibility.Visible;
+                }
+            });
+
+            WeakReferenceMessenger.Default.Register<CloseWindowMessage>(this, (reciver, message) =>
+            {
+                if (message.Value == "CloseMenuWindow")
+                {
+                    this.Close();
+                }
+            });
         }
     }
 }

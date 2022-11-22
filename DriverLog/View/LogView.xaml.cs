@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DriverLog.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,7 @@ namespace DriverLog.View
     {
         public LogView()
         {
+            DataContext = new LogViewModel();
             InitializeComponent();
         }
     }

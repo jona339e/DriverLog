@@ -13,6 +13,8 @@
         >
     <Grid>
 
+
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20" />
             <ColumnDefinition Width="*" />
@@ -45,7 +47,7 @@
                    />
         
         <Button Grid.Column="2" Grid.Row="3" Content="Gå til Bruger" 
-                Margin="10"/>
+                Margin="10" Command="{Binding UserCommand}"/>
         
         <!--Vehicles-->
         
@@ -55,7 +57,7 @@
                    Margin="10"/>
         
         <Button Grid.Column="3" Grid.Row="3" Content="Gå til Køretøj" 
-                Margin="10"/>
+                Margin="10" Command="{Binding VehicleCommand}"/>
         
         <!--DriverLogs-->
         
@@ -65,7 +67,7 @@
                    Margin="10"/>
         
         <Button Grid.Column="4" Grid.Row="3" Content="Gå til KørselsLog" 
-                Margin="10"/>
+                Margin="10" Command="{Binding LogCommand}"/>
 
         <DataGrid Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="3"
                   Height="200" Margin="10"/>

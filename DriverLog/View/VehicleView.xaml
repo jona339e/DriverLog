@@ -4,9 +4,114 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DriverLog.View"
+        xmlns:viewModel="clr-namespace:DriverLog.ViewModel"
         mc:Ignorable="d"
-        Title="VehicleView" Height="450" Width="800">
+        d:DataContext="{d:DesignInstance Type=viewModel:VehicleViewModel}"
+        Title="VehicleView" Height="600" Width="900" WindowStartupLocation="CenterScreen"
+        FontSize="18"
+        Background="AntiqueWhite">
     <Grid>
-        
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="120" />
+            <ColumnDefinition Width="120" />
+            <ColumnDefinition Width="120" />
+            <ColumnDefinition Width="120" />
+            <ColumnDefinition Width="120" />
+            <ColumnDefinition Width="120" />
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="20" />
+        </Grid.RowDefinitions>
+
+
+
+        <!--Create User-->
+        <TextBlock Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2"
+                   Text="Opret Køretøj"
+                   Margin="10" TextAlignment="Center"/>
+        <TextBlock Grid.Row="3" Grid.Column="2" Text="Model:" 
+                   Margin="10" />
+        <TextBlock Grid.Row="4" Grid.Column="2" Text="Nr. Plade:" 
+                   Margin="10"/>
+
+        <TextBox Grid.Row="3" Grid.Column="3" Text=""
+                 Margin="10" />
+        <TextBox Grid.Row="4" Grid.Column="3" Text="" 
+                 Margin="10" />
+        <Button Grid.Row="6" Grid.Column="2" Content="Opret Køretøj"
+                Grid.ColumnSpan="2" Margin="10"/>
+
+        <Border Grid.Column="2" Grid.Row="2" Grid.RowSpan="5" 
+                Grid.ColumnSpan="2" BorderBrush="FloralWhite"
+                BorderThickness="2"/>
+
+
+        <!--Edit User-->
+        <TextBlock Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2" 
+                   Text="Rediger Køretøj" TextAlignment="center"
+                   Margin="10"/>
+        <TextBlock Grid.Row="3" Grid.Column="4" Text="Køretøjs ID:"
+                   Margin="10"/>
+        <TextBlock Grid.Row="4" Grid.Column="4" Text="Model:"
+                   Margin="10"/>
+        <TextBlock Grid.Row="5" Grid.Column="4" Text="Nr. Plade:" 
+                   Margin="10"/>
+        <ComboBox Grid.Row="3" Grid.Column="5" Margin="10"/>
+        <TextBox Grid.Row="4" Grid.Column="5" Text="" 
+                 Margin="10" />
+        <TextBox Grid.Row="5" Grid.Column="5" Text=""
+                 Margin="10" />
+        <Button Grid.Row="6" Grid.Column="4" Content="Rediger Køretøj" 
+                Grid.ColumnSpan="2" Margin="10" />
+
+        <Border Grid.Column="4" Grid.Row="2" Grid.RowSpan="5" 
+                Grid.ColumnSpan="2" BorderBrush="FloralWhite"
+                BorderThickness="2"/>
+
+        <!--Delete User-->
+        <TextBlock Grid.Row="2" Grid.Column="6" Grid.ColumnSpan="2"
+                   Text="Slet Køretøj" TextAlignment="Center"
+                   Margin="10"/>
+        <TextBlock Grid.Row="3" Grid.Column="6" Text="Køretøjs ID:"
+                   Margin="10"/>
+        <TextBlock Grid.Row="4" Grid.Column="6" Text="Model:"
+                   Margin="10"/>
+        <TextBlock Grid.Row="5" Grid.Column="6" Text="Nr. Plade:" 
+                   Margin="10" />
+        <ComboBox Grid.Row="3" Grid.Column="7" Margin="10"/>
+        <TextBox Grid.Row="4" Grid.Column="7" Text="" 
+                 Margin="10" IsReadOnly="True"/>
+        <TextBox Grid.Row="5" Grid.Column="7" Text=""
+                 Margin="10" IsReadOnly="True"/>
+
+        <Button Grid.Row="6" Grid.Column="6" Content="Slet" Grid.ColumnSpan="2"
+                Margin="10"/>
+
+        <Border Grid.Column="6" Grid.Row="2" Grid.RowSpan="5" 
+                Grid.ColumnSpan="2" BorderBrush="FloralWhite"
+                BorderThickness="2"/>
+
+        <!--GRID-->
+        <DataGrid Grid.Row="7" Grid.Column="3" Grid.ColumnSpan="4"
+                  Height="200" Margin="10"/>
+
+
+        <Button Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2"
+                Content="Tilbage" Width="100" MaxHeight="30" 
+                HorizontalAlignment="Left" VerticalAlignment="Bottom" />
     </Grid>
 </Window>
