@@ -17,6 +17,7 @@ namespace DriverLog.ViewModel
         [RelayCommand]
         public void OnClose()
         {
+            
             WeakReferenceMessenger.Default.Send(new CloseWindowMessage("CloseMenuWindow"));
         }
     }

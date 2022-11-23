@@ -8,8 +8,8 @@ namespace DriverLog.Model
 {
     public class Log
     {
-        public string? User { get; set; }
-        public string? Plate { get; set; }
         public string? Message { get; set; }
+        public DateTime Date { get; set; }
+        public int Distance { get; set; }
     }
 }

@@ -15,6 +15,7 @@
 
         <i:Interaction.Triggers>
             <i:EventTrigger EventName="Closing">
+                
                 <i:InvokeCommandAction Command="{Binding ClosingCommand}" PassEventArgsToCommand="True"/>
             </i:EventTrigger>
         </i:Interaction.Triggers>
