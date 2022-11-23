@@ -14,5 +14,6 @@ namespace DriverLog.Model
         List<User> UserList = new();
         List<Vehicle> VehicleList = new();
         List<Event_Log> Event_LogList = new();
+        List<Absence> AbsenceList = new();
     }
 }
