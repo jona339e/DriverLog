@@ -32,7 +32,7 @@ namespace DriverLog
             InitializeComponent();
 
             // Registers a message of type CloseWindowMessage, if the message value is "CloseWindow" the window is then closed.
-            WeakReferenceMessenger.Default.Register<CloseWindowMessage>(this, (reciver, message) =>
+            WeakReferenceMessenger.Default.Register<MainWindowControlMessage>(this, (reciver, message) =>
             {
                 if (message.Value == "CloseWindow")
                 {

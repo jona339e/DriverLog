@@ -7,11 +7,10 @@ using System.Threading.Tasks;
 
 namespace DriverLog.Messages
 {
-    public class CloseWindowMessage : ValueChangedMessage<string>
+    internal class PageMessage : ValueChangedMessage<string>
     {
-        public CloseWindowMessage(string value) : base(value)
+        public PageMessage(string value) : base(value)
         {
-
         }
     }
 }

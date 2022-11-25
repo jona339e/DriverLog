@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace DriverLog.Messages
 {
-    public class ChangeVisibilityMessage : ValueChangedMessage<string>
+    internal class AdminWindowControlMessage : ValueChangedMessage<string>
     {
-        public ChangeVisibilityMessage(string value) : base(value)
+        public AdminWindowControlMessage(string value) : base(value)
         {
         }
     }

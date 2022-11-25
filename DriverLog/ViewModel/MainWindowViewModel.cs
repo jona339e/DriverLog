@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using DriverLog.Messages;
 using DriverLog.View;
+using DriverLog.View.User;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,7 +19,7 @@ namespace DriverLog.ViewModel
     {
 
         [ObservableProperty]
-        private string? userName;
+        private string? userName = "Jonas";
 
         // Using ObservableProperty attribute generates the following
 
@@ -35,7 +36,7 @@ namespace DriverLog.ViewModel
         //public event PropertyChangedEventHandler? PropertyChanged;
 
         [ObservableProperty]
-        private string? passWord;
+        private string? passWord = "123";
 
 
 
@@ -54,8 +55,14 @@ namespace DriverLog.ViewModel
         {
             if (UserName == "Jonas" && passWord =="123")
             {
-                DriversLog dl = new DriversLog();
-                dl.Show();
+                AdminDashboard AD = new AdminDashboard();
+                AD.Show();
+                notifyWindowToClose();
+            }
+            else if (UserName == "Jonas" && passWord == "1234")
+            {
+                UserDashboard UD = new();
+                UD.Show();
                 notifyWindowToClose();
             }
             
@@ -65,7 +72,7 @@ namespace DriverLog.ViewModel
         // Creates a message with the text "CloseWindow" and sends it to the view.
         public void notifyWindowToClose()
         {
-            WeakReferenceMessenger.Default.Send(new CloseWindowMessage("CloseWindow"));
+            WeakReferenceMessenger.Default.Send(new MainWindowControlMessage("CloseWindow"));
         }
 
     }

@@ -1,4 +1,4 @@
-﻿using DriverLog.ViewModel;
+﻿using DriverLog.ViewModel.Admin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,18 +11,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DriverLog.View
+namespace DriverLog.View.Admin
 {
     /// <summary>
-    /// Interaction logic for LogView.xaml
+    /// Interaction logic for VehiclePage.xaml
     /// </summary>
-    public partial class LogView : Window
+    public partial class VehiclePage : Page
     {
-        public LogView()
+        public VehiclePage()
         {
-            DataContext = new LogViewModel();
+            DataContext = new VehiclePageViewModel();
             InitializeComponent();
         }
     }

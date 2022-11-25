@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DriverLog.ViewModel.Admin;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,19 +11,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using DriverLog.ViewModel;
 
-namespace DriverLog.View
+namespace DriverLog.View.Admin
 {
     /// <summary>
-    /// Interaction logic for VehicleView.xaml
+    /// Interaction logic for AbsencePage.xaml
     /// </summary>
-    public partial class VehicleView : Window
+    public partial class AbsencePage : Page
     {
-        public VehicleView()
+        public AbsencePage()
         {
-            DataContext = new VehicleViewModel();
+            DataContext = new AbsencePageViewModel();
             InitializeComponent();
         }
     }

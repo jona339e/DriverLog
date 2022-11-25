@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DriverLog.ViewModel
+namespace DriverLog.ViewModel.Admin
 {
-    public partial class VehicleViewModel : ObservableObject
+    public partial class EntryLogPageViewModel : ObservableObject
     {
 
     }
