@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DriverLog.Model
 {
-    public class Log
+    public class LogModel
     {
         
         public DateTime StartTime { get; set; }

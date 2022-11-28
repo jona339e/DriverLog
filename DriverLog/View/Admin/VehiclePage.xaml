@@ -4,10 +4,10 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:DriverLog.View.Admin"
-      xmlns:viewModel="clr-namespace:DriverLog.ViewModel"
+      xmlns:viewModel="clr-namespace:DriverLog.ViewModel.Admin"
       mc:Ignorable="d" 
       d:DataContext="{d:DesignInstance Type=viewModel:VehiclePageViewModel}"     
-      d:DesignHeight="600" d:DesignWidth="800"
+      d:DesignHeight="600" d:DesignWidth="1200"
       Title="VehiclePage"
       Background="AntiqueWhite"
       FontSize="18">
@@ -17,6 +17,8 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20" />
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="120" />
+            <ColumnDefinition Width="120" />
             <ColumnDefinition Width="120" />
             <ColumnDefinition Width="120" />
             <ColumnDefinition Width="120" />
@@ -55,12 +57,12 @@
         <TextBlock Grid.Row="4" Grid.Column="2" Text="Nr. Plade:" 
                    Margin="10"/>
 
-        <TextBox Grid.Row="3" Grid.Column="3" Text=""
+        <TextBox Grid.Row="3" Grid.Column="3" Text="{Binding CreateModel}"
                  Margin="10" />
-        <TextBox Grid.Row="4" Grid.Column="3" Text="" 
+        <TextBox Grid.Row="4" Grid.Column="3" Text="{Binding CreatePlate}" 
                  Margin="10" />
         <Button Grid.Row="6" Grid.Column="2" Content="Opret Køretøj"
-                Grid.ColumnSpan="2" Margin="10"/>
+                Grid.ColumnSpan="2" Margin="10" Command="{Binding CreateVehicleCommand}"/>
 
         <Border Grid.Column="2" Grid.Row="2" Grid.RowSpan="5" 
                 Grid.ColumnSpan="2" BorderBrush="FloralWhite"
@@ -113,27 +115,27 @@
                 BorderThickness="2"/>
 
         <!--Create Status-->
-        <TextBlock Grid.Row="7" Grid.Column="4" Grid.ColumnSpan="2"
-                   Text="Opret Status"
+        <TextBlock Grid.Row="2" Grid.Column="8" Grid.ColumnSpan="2"
+                   Text="Ændre Status"
                    Margin="10" TextAlignment="Center"/>
-        <TextBlock Grid.Row="8" Grid.Column="4" Text="Bil ID:" 
+        <TextBlock Grid.Row="3" Grid.Column="8" Text="Køretøjs ID:" 
                    Margin="10" />
-        <TextBlock Grid.Row="9" Grid.Column="4" Text="Status:" 
+        <TextBlock Grid.Row="4" Grid.Column="8" Text="Status:" 
                    Margin="10"/>
 
-        <ComboBox Grid.Row="8" Grid.Column="5" Text=""
+        <ComboBox Grid.Row="3" Grid.Column="9" Text=""
                  Margin="10" />
-        <TextBox Grid.Row="9" Grid.Column="5" Text="" 
+        <TextBox Grid.Row="4" Grid.Column="9" Text="" 
                  Margin="10" />
-        <Button Grid.Row="10" Grid.Column="4" Content="Opret Køretøj"
-                Grid.ColumnSpan="2" Margin="10"/>
+        <Button Grid.Row="6" Grid.Column="8" Content="Opret Køretøj"
+                Grid.ColumnSpan="2" Margin="10" Command="{Binding CreateStatusCommand}"/>
 
-        <Border Grid.Column="4" Grid.Row="7" Grid.RowSpan="5" 
+        <Border Grid.Column="8" Grid.Row="2" Grid.RowSpan="5" 
                 Grid.ColumnSpan="2" BorderBrush="FloralWhite"
                 BorderThickness="2"/>
 
         <!--GRID-->
-        <DataGrid Grid.Row="12" Grid.Column="3" Grid.ColumnSpan="4"
+        <DataGrid Grid.Row="12" Grid.Column="4" Grid.ColumnSpan="4"
                   Height="200" Margin="10,20,10,10"/>
 
 

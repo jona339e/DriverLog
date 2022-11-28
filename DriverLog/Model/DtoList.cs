@@ -10,10 +10,10 @@ namespace DriverLog.Model
     {
         // Create Lists of different objects to send over for database insertion
 
-        public List<Log> LogList = new();
+        public List<LogModel> LogList = new();
         public  List<UserModel> UserList = new();
-        public List<Vehicle> VehicleList = new();
-        public List<Event_Log> Event_LogList = new();
-        public List<Absence> AbsenceList = new();
+        public List<VehicleModel> VehicleList = new();
+        public List<EventLogModel> Event_LogList = new();
+        public List<AbsenceModel> AbsenceList = new();
     }
 }

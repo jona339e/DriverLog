@@ -5,8 +5,8 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:DriverLog.View"
       mc:Ignorable="d" 
-      xmlns:viewModel="clr-namespace:DriverLog.ViewModel"
-      d:DesignHeight="450" d:DesignWidth="800"
+      xmlns:viewModel="clr-namespace:DriverLog.ViewModel.Admin"
+      d:DesignHeight="650" d:DesignWidth="800"
       d:DataContext="{d:DesignInstance Type=viewModel:UserPageViewModel}"     
       Title="UserPage"
       Background="AntiqueWhite"
@@ -35,6 +35,8 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="20" />
         </Grid.RowDefinitions>
@@ -45,19 +47,27 @@
         <TextBlock Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2"
                    Text="Opret Bruger"
                    Margin="10" TextAlignment="Center"/>
-        <TextBlock Grid.Row="3" Grid.Column="2" Text="Brugernavn:" 
+        <TextBlock Grid.Row="4" Grid.Column="2" Text="Brugernavn:" 
                    Margin="10" />
-        <TextBlock Grid.Row="4" Grid.Column="2" Text="Password" 
+        <TextBlock Grid.Row="5" Grid.Column="2" Text="Password:" 
+                   Margin="10"/>        
+        <TextBlock Grid.Row="6" Grid.Column="2" Text="Er Admin:" 
                    Margin="10"/>
 
-        <TextBox Grid.Row="3" Grid.Column="3" Text=""
+        <TextBox Grid.Row="4" Grid.Column="3" Text="{Binding CreateUsername,UpdateSourceTrigger=PropertyChanged}"
                  Margin="10" />
-        <TextBox Grid.Row="4" Grid.Column="3" Text="" 
+        <TextBox Grid.Row="5" Grid.Column="3" Text="{Binding CreatePassword,UpdateSourceTrigger=PropertyChanged}" 
                  Margin="10" />
-        <Button Grid.Row="6" Grid.Column="2" Content="Opret Bruger"
-                Grid.ColumnSpan="2" Margin="10"/>
+        <ComboBox Grid.Row="6" Grid.Column="3" 
+                  Text="{Binding CreateIsAdmin,UpdateSourceTrigger=PropertyChanged}" 
+                 Margin="10" >
+            <ComboBoxItem Content="True"/>
+            <ComboBoxItem Content="False" IsSelected="True"/>
+        </ComboBox>
+        <Button Grid.Row="7" Grid.Column="2" Content="Opret Bruger"
+                Grid.ColumnSpan="2" Margin="10" Command="{Binding CreateUserCommand}"/>
 
-        <Border Grid.Column="2" Grid.Row="2" Grid.RowSpan="5" 
+        <Border Grid.Column="2" Grid.Row="2" Grid.RowSpan="6" 
                 Grid.ColumnSpan="2" BorderBrush="FloralWhite"
                 BorderThickness="2"/>
 
@@ -71,16 +81,25 @@
         <TextBlock Grid.Row="4" Grid.Column="4" Text="Brugernavn:"
                    Margin="10"/>
         <TextBlock Grid.Row="5" Grid.Column="4" Text="Password:" 
+                   Margin="10"/>       
+        <TextBlock Grid.Row="6" Grid.Column="4" Text="Er Admin:" 
                    Margin="10"/>
+        
         <ComboBox Grid.Row="3" Grid.Column="5" Margin="10"/>
         <TextBox Grid.Row="4" Grid.Column="5" Text="" 
                  Margin="10" />
         <TextBox Grid.Row="5" Grid.Column="5" Text=""
                  Margin="10" />
-        <Button Grid.Row="6" Grid.Column="4" Content="Rediger Bruger" 
+        <ComboBox Grid.Row="6" Grid.Column="5" Text=""
+                 Margin="10" >
+            <ComboBoxItem Content="True"/>
+            <ComboBoxItem Content="False" IsSelected="True"/>
+        </ComboBox>
+        
+        <Button Grid.Row="7" Grid.Column="4" Content="Rediger Bruger" 
                 Grid.ColumnSpan="2" Margin="10" />
 
-        <Border Grid.Column="4" Grid.Row="2" Grid.RowSpan="5" 
+        <Border Grid.Column="4" Grid.Row="2" Grid.RowSpan="6" 
                 Grid.ColumnSpan="2" BorderBrush="FloralWhite"
                 BorderThickness="2"/>
 
@@ -93,22 +112,29 @@
         <TextBlock Grid.Row="4" Grid.Column="6" Text="Brugernavn:"
                    Margin="10"/>
         <TextBlock Grid.Row="5" Grid.Column="6" Text="Password:" 
+                   Margin="10" />        
+        <TextBlock Grid.Row="6" Grid.Column="6" Text="Er Admin:" 
                    Margin="10" />
+        
         <ComboBox Grid.Row="3" Grid.Column="7" Margin="10"/>
+        
         <TextBox Grid.Row="4" Grid.Column="7" Text="" 
                  Margin="10" IsReadOnly="True"/>
         <TextBox Grid.Row="5" Grid.Column="7" Text=""
                  Margin="10" IsReadOnly="True"/>
 
-        <Button Grid.Row="6" Grid.Column="6" Content="Slet" Grid.ColumnSpan="2"
+        <ComboBox Grid.Row="6" Grid.Column="7" Text=""
+                 Margin="10" IsReadOnly="True"/>
+
+        <Button Grid.Row="7" Grid.Column="6" Content="Slet" Grid.ColumnSpan="2"
                 Margin="10"/>
 
-        <Border Grid.Column="6" Grid.Row="2" Grid.RowSpan="5" 
+        <Border Grid.Column="6" Grid.Row="2" Grid.RowSpan="6" 
                 Grid.ColumnSpan="2" BorderBrush="FloralWhite"
                 BorderThickness="2"/>
 
         <!--GRID-->
-        <DataGrid Grid.Row="7" Grid.Column="3" Grid.ColumnSpan="4"
+        <DataGrid Grid.Row="8" Grid.Column="3" Grid.ColumnSpan="4"
                   Height="200" Margin="10,30,10,10"/>
 
     </Grid>

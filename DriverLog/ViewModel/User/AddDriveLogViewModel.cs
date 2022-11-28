@@ -14,24 +14,6 @@ namespace DriverLog.ViewModel.User
 {
     public partial class AddDriveLogViewModel : ObservableObject
     {
-        DtoList dtoList = new();
-
- 
-        public AddDriveLogViewModel()
-        {
-            UserModel um = new();
-
-            um.Username = "xd";
-
-            UserModel um2 = new();
-
-            um2.Username = "yd";
-
-            dtoList.UserList.Add(um);
-            dtoList.UserList.Add(um2);
-
-        }
-
 
         [RelayCommand]
         public void OnAddDriveCancel()

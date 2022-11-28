@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace DriverLog.Model
 {
-    public class Absence
+    public class EventLogModel
     {
+        public string? Event_Entry { get; set; }
         public DateTime Date { get; set; }
-        public bool IsAbsent { get; set; }
-
     }
 }
