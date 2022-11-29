@@ -10,6 +10,6 @@ namespace DriverLog.Model
     {
         public string? Model { get; set; }
         public string? Plate { get; set; }
-        public string? Status { get; set; }
+        public string? Status { get; set; } = string.Empty;
     }
 }

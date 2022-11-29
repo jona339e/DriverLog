@@ -86,11 +86,11 @@
                    Margin="10"/>
         
         <ComboBox Grid.Row="3" Grid.Column="5" Margin="10"/>
-        <TextBox Grid.Row="4" Grid.Column="5" Text="" 
-                 Margin="10" />
-        <TextBox Grid.Row="5" Grid.Column="5" Text=""
-                 Margin="10" />
-        <ComboBox Grid.Row="6" Grid.Column="5" Text=""
+        <TextBox Grid.Row="4" Grid.Column="5"
+                 Margin="10" Text="{Binding UpdateUsername, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Row="5" Grid.Column="5"
+                 Margin="10" Text="{Binding UpdatePassword, UpdateSourceTrigger=PropertyChanged}"/>
+        <ComboBox Grid.Row="6" Grid.Column="5" Text="{Binding UpdateIsAdmin, UpdateSourceTrigger=PropertyChanged}"
                  Margin="10" >
             <ComboBoxItem Content="True"/>
             <ComboBoxItem Content="False" IsSelected="True"/>

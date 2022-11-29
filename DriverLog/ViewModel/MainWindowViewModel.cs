@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using DriverLog.Messages;
+using DriverLog.Model;
 using DriverLog.View;
 using DriverLog.View.User;
 using System;
@@ -38,6 +39,7 @@ namespace DriverLog.ViewModel
         [ObservableProperty]
         private string? passWord = "123";
 
+        // obsolete code
 
 
         // Instead of the code below, I can use the [RelayCommand] attribute on my method to invoke it on
@@ -50,22 +52,44 @@ namespace DriverLog.ViewModel
         //    LoginCommand = new RelayCommand(OnLogin);
         //}
 
+
         [RelayCommand]
         public void OnLogin()
         {
-            if (UserName == "Jonas" && passWord =="123")
+
+            SqlHandler sqlh = new();
+
+            sqlh.LoginCheck(UserName, PassWord);
+
+
+
+            //if (UserName == "Jonas" && passWord == "123")
+            //{
+            //    AdminDashboard AD = new AdminDashboard();
+            //    AD.Show();
+            //    notifyWindowToClose();
+            //}
+            //else if (UserName == "Jonas" && passWord == "1234")
+            //{
+            //    UserDashboard UD = new();
+            //    UD.Show();
+            //    notifyWindowToClose();
+            //}
+
+        }
+
+
+
+        public void WrongCredentials()
+        {
+            WeakReferenceMessenger.Default.Register<LoginMessage>(this, (reciver, message) =>
             {
-                AdminDashboard AD = new AdminDashboard();
-                AD.Show();
-                notifyWindowToClose();
-            }
-            else if (UserName == "Jonas" && passWord == "1234")
-            {
-                UserDashboard UD = new();
-                UD.Show();
-                notifyWindowToClose();
-            }
-            
+                if (message.Value == "WrongCredentials")
+                {
+                    PassWord = "";
+                    UserName = string.Empty;
+                }
+            });
         }
 
 

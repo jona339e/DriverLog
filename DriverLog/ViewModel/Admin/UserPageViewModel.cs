@@ -33,6 +33,9 @@ namespace DriverLog.ViewModel.Admin
             um.IsAdmin = createIsAdmin;
             um.Date = DateTime.Now;
 
+            SqlHandler sqlHandler= new SqlHandler();
+            sqlHandler.CreateUser( um );
+
             // sets the user input text boxes to an empty string, so they are ready for a new input
             CreateUsername = "";
             CreatePassword = "";

@@ -27,6 +27,10 @@ namespace DriverLog.ViewModel.Admin
             VehicleModel vehicleModel = new VehicleModel();
             vehicleModel.Model = createModel;
             vehicleModel.Plate = createPlate;
+
+            SqlHandler sqlh = new SqlHandler();
+            sqlh.CreateVehicle(vehicleModel);
+
             CreateModel = string.Empty;
             CreatePlate = string.Empty;
 

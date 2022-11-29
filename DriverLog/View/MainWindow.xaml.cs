@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using DriverLog.Messages;
 using DriverLog.View;
+using DriverLog.View.User;
 using DriverLog.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -32,13 +33,37 @@ namespace DriverLog
             InitializeComponent();
 
             // Registers a message of type CloseWindowMessage, if the message value is "CloseWindow" the window is then closed.
-            WeakReferenceMessenger.Default.Register<MainWindowControlMessage>(this, (reciver, message) =>
+            //WeakReferenceMessenger.Default.Register<MainWindowControlMessage>(this, (reciver, message) =>
+            //{
+            //    if (message.Value == "CloseWindow")
+            //    {
+            //        this.Close();
+            //    }
+            //}); 
+            
+            
+            WeakReferenceMessenger.Default.Register<LoginMessage>(this, (reciver, message) =>
             {
-                if (message.Value == "CloseWindow")
+                if (message.Value == "IsAdmin")
                 {
+                    AdminDashboard AD = new AdminDashboard();
+                    AD.Show();
                     this.Close();
                 }
+                else if(message.Value == "IsUser")
+                {
+                    UserDashboard ud = new();
+                    ud.Show();
+                    this.Close();
+                }
+                else if(message.Value == "WrongCredentials")
+                {
+                    MessageBox.Show("Wrong Credentials. Try Again");
+                }
             });
+
+
+
         }
 
         
