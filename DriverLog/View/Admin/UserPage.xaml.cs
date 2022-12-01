@@ -26,5 +26,10 @@ namespace DriverLog.View
             DataContext = new UserPageViewModel();
             InitializeComponent();
         }
+
+        private void ComboBox_DropDownClosed(object sender, EventArgs e)
+        {
+            
+        }
     }
 }

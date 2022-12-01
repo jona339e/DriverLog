@@ -11,6 +11,7 @@ namespace DriverLog.Model
 {
     public class SqlHandler
     {
+        // skole database -- maskine hedder 003
         private const string? sqlconn = @"Data Source=DESKTOP-CGQRRVF\SQLEXPRESS;Initial Catalog=KLOG;User ID=sa;Password=Passw0rd";
         private SqlCommand? cmnd;
         private SqlDataReader? dr;
@@ -18,9 +19,22 @@ namespace DriverLog.Model
         private SqlConnection? conn = new(sqlconn);
 
 
-        public void GetUserIDList()
+        public List<int> GetUserIDList()
         {
-
+            List<int> list = new List<int>();
+            conn.Open();
+            {
+                cmnd = new("SELECT ID_USER FROM [USER]", conn);
+                dr = cmnd.ExecuteReader();
+                while (dr.Read())
+                {
+                    list.Add(dr.GetInt32(0));
+                }
+            }
+            cmnd.Dispose();
+            dr.Close();
+            conn.Close();
+            return list;
         }
 
         public void LoginCheck(string username, string password)
@@ -84,11 +98,65 @@ namespace DriverLog.Model
 
         }        
 
-        public void UpdateUser()
+        public void UpdateUser(UserModel um, int? userID)
         {
+            conn.Open();
+            {
+                cmnd = new("UPDATE [USER] SET USERNAME = @UpdateUsername, PASSWORD = @UpdatePassword, ISADMIN = @UpdateIsAdmin WHERE ID_USER = @UserID",conn);
+                cmnd.Parameters.AddWithValue("@UpdateUsername", um.Username);
+                cmnd.Parameters.AddWithValue("@UpdatePassword", um.Password);
+                cmnd.Parameters.AddWithValue("@UpdateIsAdmin", um.IsAdmin);
+                cmnd.Parameters.AddWithValue("@UserID", userID);
+
+                da.UpdateCommand = cmnd;
+                da.UpdateCommand.ExecuteNonQuery();
+            }
+            da.Dispose();
+            cmnd.Dispose();
+            conn.Close();
 
         }
 
+        public UserModel GetUserData(int? userID)
+        {
+            UserModel um = new();
+
+            conn.Open();
+            {
+                cmnd = new("SELECT USERNAME, PASSWORD, ISADMIN FROM [USER] WHERE ID_USER = @USERID", conn);
+                cmnd.Parameters.AddWithValue("@USERID", userID);
+
+                dr = cmnd.ExecuteReader();
+                while (dr.Read())
+                {
+                    um.Username = dr.GetString(0);
+                    um.Password= dr.GetString(1);
+                    um.IsAdmin= dr.GetBoolean(2);
+                }
+            }
+            cmnd.Dispose();
+            dr.Close();
+            conn.Close();
+            return um;
+        }
+
+
+        public void DeleteUser(int? userID)
+        {
+            conn.Open();
+            {
+                cmnd = new("DELETE FROM [USER] WHERE ID_USER = @USERID", conn);
+                cmnd.Parameters.AddWithValue("@USERID", userID);
+
+                da.DeleteCommand = cmnd;
+                da.DeleteCommand.ExecuteNonQuery();
+
+            }
+            cmnd.Dispose();
+            da.Dispose();
+            conn.Close();
+
+        }
 
         public void CreateVehicle(VehicleModel vm)
         {

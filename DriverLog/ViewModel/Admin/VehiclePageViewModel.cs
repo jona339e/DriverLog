@@ -16,7 +16,7 @@ namespace DriverLog.ViewModel.Admin
         public string? createModel;
 
         [ObservableProperty]
-        public string? createPlate;  
+        public string? createPlate;
 
         [ObservableProperty]
         public string? createStatus;
