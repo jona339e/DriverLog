@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
       xmlns:local="clr-namespace:DriverLog.View.Admin"
       xmlns:viewModel="clr-namespace:DriverLog.ViewModel.Admin"
       mc:Ignorable="d" 
@@ -80,7 +81,9 @@
         <TextBlock Grid.Row="5" Grid.Column="4" Text="Nr. Plade:" 
                    Margin="10"/>
         
-        <ComboBox Grid.Row="3" Grid.Column="5" Margin="10"/>
+        <ComboBox Grid.Row="3" Grid.Column="5" Margin="10"
+                  ItemsSource="{Binding UpdateVehicleID}" 
+                  SelectedItem="{Binding UpdateSelectedVehicleID}" />
         
         <TextBox Grid.Row="4" Grid.Column="5" Text="{Binding UpdateModel}" 
                  Margin="10" />
@@ -103,8 +106,18 @@
                    Margin="10"/>
         <TextBlock Grid.Row="5" Grid.Column="6" Text="Nr. Plade:" 
                    Margin="10" />
-        
-        <ComboBox Grid.Row="3" Grid.Column="7" Margin="10"/>
+
+        <ComboBox Grid.Row="3" Grid.Column="7" Margin="10" Text="" 
+                  ItemsSource="{Binding DeleteVehicleID}" 
+                  SelectedItem="{Binding DeleteSelectedVehicleID}">
+            
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding ShowVehicleDataCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            
+        </ComboBox>
         
         <TextBox Grid.Row="4" Grid.Column="7" Text="{Binding DeleteModel}" 
                  Margin="10" IsReadOnly="True"/>
@@ -128,8 +141,12 @@
         <TextBlock Grid.Row="4" Grid.Column="8" Text="Status:" 
                    Margin="10"/>
 
-        <ComboBox Grid.Row="3" Grid.Column="9" Text="{Binding StatusVehicleID}"
-                 Margin="10" />
+        <ComboBox Grid.Row="3" Grid.Column="9"
+                  Margin="10" 
+                  ItemsSource="{Binding StatusVehicleID}" 
+                  SelectedItem="{Binding StatusSelectedVehicleID}"
+                  
+                  />
         
         <TextBox Grid.Row="4" Grid.Column="9" Text="{Binding ChangeStatus}" 
                  Margin="10" />

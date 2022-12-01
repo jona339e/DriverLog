@@ -82,7 +82,7 @@ namespace DriverLog.ViewModel.Admin
         public UserPageViewModel()
         {
 
-            IDLIST = sqlHandler.GetUserIDList();
+            IDLIST = sqlHandler.GetUserIDList("ID_USER", "[USER]");
 
             UpdateMyIDS();
         }
@@ -164,7 +164,7 @@ namespace DriverLog.ViewModel.Admin
         private void UpdateMyIDS()
         {
             IDLIST.Clear();
-            IDLIST = sqlHandler.GetUserIDList();
+            IDLIST = sqlHandler.GetUserIDList("ID_USER", "[USER]");
             UpdateUserID = IDLIST;
             DeleteUserID = IDLIST;
         }

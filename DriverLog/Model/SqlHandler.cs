@@ -19,12 +19,13 @@ namespace DriverLog.Model
         private SqlConnection? conn = new(sqlconn);
 
 
-        public List<int> GetUserIDList()
+        public List<int> GetUserIDList(string id, string table)
         {
             List<int> list = new List<int>();
             conn.Open();
             {
                 cmnd = new("SELECT ID_USER FROM [USER]", conn);
+
                 dr = cmnd.ExecuteReader();
                 while (dr.Read())
                 {
@@ -78,6 +79,7 @@ namespace DriverLog.Model
         }
 
 
+        // ADMIN - USER METHODS
         public void CreateUser(UserModel um)
         {
             conn.Open();
@@ -140,7 +142,6 @@ namespace DriverLog.Model
             return um;
         }
 
-
         public void DeleteUser(int? userID)
         {
             conn.Open();
@@ -157,6 +158,11 @@ namespace DriverLog.Model
             conn.Close();
 
         }
+
+
+
+
+        // ADMIN - VEHICLE METHODS
 
         public void CreateVehicle(VehicleModel vm)
         {
@@ -177,7 +183,65 @@ namespace DriverLog.Model
 
         }
 
-        
+        public void UpdateVehicle(VehicleModel vm, int? ID)
+        {
+            conn.Open();
+            {
+
+                cmnd = new("UPDATE VEHICLE SET MODEL = @UpdateModel, PLATE = @UpdatePlate WHERE ID_VEHICLE = @ID", conn);
+                cmnd.Parameters.AddWithValue("@UpdateModel", vm.Model);
+                cmnd.Parameters.AddWithValue("@UpdatePlate", vm.Plate);
+                cmnd.Parameters.AddWithValue("@ID", ID);
+
+                da.UpdateCommand = cmnd;
+                da.UpdateCommand.ExecuteNonQuery();
+
+            }
+            da.Dispose();
+            cmnd.Dispose();
+            conn.Close();
+        }
+
+        public VehicleModel GetVehicleData(int? vehicleID)
+        {
+            VehicleModel vm = new();
+
+            conn.Open();
+            {
+                cmnd = new("SELECT Model, Plate FROM Vehicle WHERE ID_VEHICLE = @VEHICLEID", conn);
+                cmnd.Parameters.AddWithValue("@VEHICLEID", vehicleID);
+
+                dr = cmnd.ExecuteReader();
+                while (dr.Read())
+                {
+                    vm.Model= dr.GetString(0);
+                    vm.Plate= dr.GetString(1);
+                    
+                }
+            }
+            cmnd.Dispose();
+            dr.Close();
+            conn.Close();
+            return vm;
+        }
+
+        public void UpdateStatus(VehicleModel status, int? ID)
+        {
+            conn.Open();
+            {
+
+                cmnd = new("UPDATE VEHICLE SET STATUS = @UpdateStatus WHERE ID_VEHICLE = @ID", conn);
+                cmnd.Parameters.AddWithValue("@UpdateStatus", status);
+                cmnd.Parameters.AddWithValue("@ID", ID);
+
+                da.UpdateCommand = cmnd;
+                da.UpdateCommand.ExecuteNonQuery();
+
+            }
+            da.Dispose();
+            cmnd.Dispose();
+            conn.Close();
+        }
 
 
     }
