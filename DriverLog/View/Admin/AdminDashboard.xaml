@@ -54,7 +54,7 @@
                     Margin="0,10,10,0" Command="{Binding VehicleCommand}"/>
             <Button Content="Kørsels Log" Width="120" Height="30" 
                     Margin="0,10,10,0" Command="{Binding DriversLogCommand}"/>
-            <Button Content="Entry Log" Width="120" Height="30" 
+            <Button Content="Event Log" Width="120" Height="30" 
                     Margin="0,10,10,0" Command="{Binding EntryLogCommand}"/>
             
         </StackPanel>

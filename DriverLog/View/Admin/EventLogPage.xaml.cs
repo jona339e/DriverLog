@@ -19,11 +19,11 @@ namespace DriverLog.View.Admin
     /// <summary>
     /// Interaction logic for EntryLogPage.xaml
     /// </summary>
-    public partial class EntryLogPage : Page
+    public partial class EventLogPage : Page
     {
-        public EntryLogPage()
+        public EventLogPage()
         {
-            DataContext = new EntryLogPageViewModel();
+            DataContext = new EventLogPageViewModel();
             InitializeComponent();
         }
     }

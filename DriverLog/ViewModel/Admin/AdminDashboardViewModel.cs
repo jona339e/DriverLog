@@ -52,9 +52,9 @@ namespace DriverLog.ViewModel
         }
 
         [RelayCommand]
-        public void OnEntryLog()
+        public void OnEventLog()
         {
-            WeakReferenceMessenger.Default.Send(new PageMessage("EntryLog"));
+            WeakReferenceMessenger.Default.Send(new PageMessage("EventLog"));
 
         }
 

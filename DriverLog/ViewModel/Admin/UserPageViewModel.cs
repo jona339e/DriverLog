@@ -82,7 +82,7 @@ namespace DriverLog.ViewModel.Admin
         public UserPageViewModel()
         {
 
-            IDLIST = sqlHandler.GetUserIDList("ID_USER", "[USER]");
+            IDLIST = sqlHandler.GetUserIDList();
 
             UpdateMyIDS();
         }
@@ -137,12 +137,24 @@ namespace DriverLog.ViewModel.Admin
         [RelayCommand]
         public void OnDeleteShowData()
         {
-            UserModel um = new();
-            um = sqlHandler.GetUserData(DeleteSelectedUserID);
+            if (DeleteSelectedUserID != null)
+            {
+                UserModel um = new();
+                um = sqlHandler.GetUserData(DeleteSelectedUserID);
 
-            DeleteUsername = um.Username;
-            DeletePassword = um.Password;
-            DeleteIsAdmin = um.IsAdmin;
+                DeleteUsername = um.Username;
+                DeletePassword = um.Password;
+                DeleteIsAdmin = um.IsAdmin;
+
+            }
+            else
+            {
+                DeleteUsername = string.Empty;
+                DeletePassword = string.Empty;
+                DeleteIsAdmin = false;
+            }
+
+
         }
 
         [RelayCommand]
@@ -154,17 +166,13 @@ namespace DriverLog.ViewModel.Admin
         }
 
 
-        public void myMethod()
-        {
-            MessageBox.Show(DeleteUsername);
-        }
 
         // Methods
 
         private void UpdateMyIDS()
         {
             IDLIST.Clear();
-            IDLIST = sqlHandler.GetUserIDList("ID_USER", "[USER]");
+            IDLIST = sqlHandler.GetUserIDList();
             UpdateUserID = IDLIST;
             DeleteUserID = IDLIST;
         }

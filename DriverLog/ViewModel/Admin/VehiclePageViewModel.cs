@@ -77,7 +77,7 @@ namespace DriverLog.ViewModel.Admin
         // Constructor
         public VehiclePageViewModel()
         {
-            vehicleList = sqlHandler.GetUserIDList("ID_VEHICLE", "VEHICLE");
+            vehicleList = sqlHandler.GetUserIDList();
             UpdateIDList();
         }
 
@@ -91,13 +91,12 @@ namespace DriverLog.ViewModel.Admin
             vehicleModel.Model = CreateModel;
             vehicleModel.Plate = CreatePlate;
 
-            SqlHandler sqlh = new SqlHandler();
-            sqlh.CreateVehicle(vehicleModel);
+            sqlHandler.CreateVehicle(vehicleModel);
 
-            createModel = string.Empty;
-            createPlate = string.Empty;
+            SetValuesToEmpty();
 
             MessageBox.Show($"Oprettede {vehicleModel.Model} med Nr. Plade: {vehicleModel.Plate}");
+            UpdateIDList();
 
         }
 
@@ -109,29 +108,89 @@ namespace DriverLog.ViewModel.Admin
             vehicleModel.Plate = UpdatePlate;
 
             sqlHandler.UpdateVehicle(vehicleModel, updateSelectedVehicleID);
+            MessageBox.Show($"Ændret til {UpdateModel} - {UpdatePlate}");
 
 
-            UpdateIDList();
+            SetValuesToEmpty();
         }
 
         [RelayCommand]
-        public void OnShowVehicleData()
+        public void OnDeleteShowVehicleData()
         {
-            VehicleModel vehicleModel = new();
-            vehicleModel = sqlHandler.GetVehicleData(DeleteSelectedVehicleID);
+            if (DeleteSelectedVehicleID != null)
+            {
 
-            DeleteModel = vehicleModel.Model;
-            DeletePlate = vehicleModel.Plate;
+
+                VehicleModel vehicleModel = new();
+                vehicleModel = sqlHandler.GetVehicleData(DeleteSelectedVehicleID);
+
+                DeleteModel = vehicleModel.Model;
+                DeletePlate = vehicleModel.Plate;
+
+
+            }
+            else
+            {
+                SetValuesToEmpty();
+            }
+        }
+
+        [RelayCommand]
+        public void OnShowCurrentStatus()
+        {
+            if (StatusSelectedVehicleID != null)
+            {
+                string currentStatus = sqlHandler.GetStatusData(StatusSelectedVehicleID);
+
+                ChangeStatus = currentStatus;
+            }
+            else
+            {
+                SetValuesToEmpty();
+            }
 
         }
+
+        [RelayCommand]
+        public void OnUpdateShowVehicleData()
+        {
+            if (UpdateSelectedVehicleID != null)
+            {
+                VehicleModel vehicleModel = new();
+                vehicleModel = sqlHandler.GetVehicleData(UpdateSelectedVehicleID);
+
+                UpdateModel = vehicleModel.Model;
+                UpdatePlate = vehicleModel.Plate;
+
+            }
+            else
+            {
+                SetValuesToEmpty();
+            }
+        }
+
+
+        [RelayCommand]
+        public void OnDeleteVehicle()
+        {
+
+            sqlHandler.DeleteVehicle(DeleteSelectedVehicleID);
+            MessageBox.Show($"Vehicle {DeleteModel} - {DeletePlate} Deleted");
+
+            UpdateIDList();
+
+        }
+
 
         [RelayCommand]
         public void OnChangeStatus()
         {
-            VehicleModel vehicleModel = new();
-            vehicleModel.Status = ChangeStatus;
+            sqlHandler.UpdateStatus(ChangeStatus, statusSelectedVehicleID);
 
-            sqlHandler.UpdateStatus(vehicleModel, statusSelectedVehicleID);
+            MessageBox.Show($"Oprettet Status: {ChangeStatus}");
+
+            SetValuesToEmpty();
+
         }
 
 
@@ -140,11 +199,26 @@ namespace DriverLog.ViewModel.Admin
         public void UpdateIDList()
         {
             vehicleList.Clear();
-            vehicleList = sqlHandler.GetUserIDList("ID_VEHICLE", "VEHICLE");
+            vehicleList = sqlHandler.GetVehicleIDList();
             UpdateVehicleID = vehicleList;
             DeleteVehicleID = vehicleList;
             StatusVehicleID = vehicleList;
 
+        }
+
+
+        private void SetValuesToEmpty()
+        {
+            UpdateSelectedVehicleID = null;
+            UpdateModel = string.Empty;
+            UpdatePlate = string.Empty;
+            
+            DeleteSelectedVehicleID = null;
+            DeleteModel = string.Empty;
+            DeletePlate = string.Empty;
+
+            StatusSelectedVehicleID = null;
+            ChangeStatus = string.Empty;
         }
 
 

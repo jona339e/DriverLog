@@ -51,9 +51,9 @@ namespace DriverLog.View
                 {
                     Main.Content = new DriversLogPage();
                 }
-                else if (message.Value == "EntryLog")
+                else if (message.Value == "EventLog")
                 {
-                    Main.Content = new EntryLogPage();
+                    Main.Content = new EventLogPage();
                 }
             });
         }

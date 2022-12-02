@@ -19,7 +19,7 @@ namespace DriverLog.Model
         private SqlConnection? conn = new(sqlconn);
 
 
-        public List<int> GetUserIDList(string id, string table)
+        public List<int> GetUserIDList()
         {
             List<int> list = new List<int>();
             conn.Open();
@@ -136,8 +136,8 @@ namespace DriverLog.Model
                     um.IsAdmin= dr.GetBoolean(2);
                 }
             }
-            cmnd.Dispose();
             dr.Close();
+            cmnd.Dispose();
             conn.Close();
             return um;
         }
@@ -225,7 +225,7 @@ namespace DriverLog.Model
             return vm;
         }
 
-        public void UpdateStatus(VehicleModel status, int? ID)
+        public void UpdateStatus(string? status, int? ID)
         {
             conn.Open();
             {
@@ -243,6 +243,75 @@ namespace DriverLog.Model
             conn.Close();
         }
 
+
+        public List<int> GetVehicleIDList()
+        {
+            List<int> list = new List<int>();
+            conn.Open();
+            {
+                cmnd = new("SELECT ID_Vehicle FROM Vehicle", conn);
+
+                dr = cmnd.ExecuteReader();
+                while (dr.Read())
+                {
+                    list.Add(dr.GetInt32(0));
+                }
+            }
+            cmnd.Dispose();
+            dr.Close();
+            conn.Close();
+            return list;
+        }
+
+        public void DeleteVehicle(int? vehicleID)
+        {
+            conn.Open();
+            {
+                cmnd = new("DELETE FROM Vehicle WHERE ID_Vehicle = @ID", conn);
+                cmnd.Parameters.AddWithValue("@ID", vehicleID);
+
+                da.DeleteCommand = cmnd;
+                da.DeleteCommand.ExecuteNonQuery();
+
+            }
+            cmnd.Dispose();
+            da.Dispose();
+            conn.Close();
+        }
+
+        public string GetStatusData(int? statusSelectedVehicleID)
+        {
+            string status = "";
+            conn.Open();
+            {
+                cmnd = new("SELECT STATUS FROM VEHICLE WHERE ID_VEHICLE = @ID", conn);
+                cmnd.Parameters.AddWithValue("@ID",statusSelectedVehicleID);
+
+                dr= cmnd.ExecuteReader();
+                while (dr.Read()) 
+                {
+                    status = dr.GetString(0);
+                }
+            }
+            dr.Close();
+            cmnd.Dispose();
+            conn.Close();
+            return status;
+        }
+
+        public List<EventLogModel> GetEvents()
+        {
+            List<EventLogModel> list = new();
+
+            conn.Open();
+            {
+                cmnd = new("SELECT * FROM ");
+            }
+            conn.Close();
+
+            return list;
+
+        }
 
     }
 }
