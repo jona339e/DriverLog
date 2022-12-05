@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace DriverLog.Model
 {
-    public class EventLogModel
+    public class EventLogDTO
     {
         public string? Event_Entry { get; set; }
+        public string? Username { get; set; }
         public DateTime Date { get; set; }
-        public int UserID { get; set; }
     }
 }

@@ -1,11 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using DriverLog.Messages;
+using DriverLog.ViewModel.Admin;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Documents;
 
 namespace DriverLog.Model
 {
@@ -38,45 +41,87 @@ namespace DriverLog.Model
             return list;
         }
 
-        public void LoginCheck(string username, string password)
+        public int GetIdFromUsername()
         {
-            // Sql open, sql select command and sql injection prevention
+            int userID = 0;
 
             conn.Open();
             {
-                cmnd = new("SELECT Username, [Password], IsAdmin FROM [USER] where Username = @LoginUserName", conn);
-                cmnd.Parameters.AddWithValue("@LoginUserName", username);
-                cmnd.Parameters.AddWithValue("@LoginUserPsw", password);
+                cmnd = new("SELECT ID_USER FROM [USER] WHERE Username = @LoggedUser", conn);
+                cmnd.Parameters.AddWithValue("@LoggedUser", GlobalUsername.Username);
 
                 dr = cmnd.ExecuteReader();
                 while (dr.Read())
                 {
-                    if (dr.GetString(0) == username && dr.GetString(1) == password)
-                    {
-
-                        if (dr.GetBoolean(2))
-                        {
-                            // message to login admin user
-                            WeakReferenceMessenger.Default.Send(new LoginMessage("IsAdmin"));
-                        }
-                        else
-                        {
-                            // message to login normal user
-                            WeakReferenceMessenger.Default.Send(new LoginMessage("IsUser"));
-                        }
-                    }
-                    else
-                    {
-                        // message to login wrong credentials
-                        WeakReferenceMessenger.Default.Send(new LoginMessage("WrongCredentials"));
-
-                    }
+                    userID= dr.GetInt32(0);
                 }
             }
             dr.Close();
             cmnd.Dispose();
             conn.Close();
+
+            return userID;
         }
+
+        // Checks if username and password exist in database
+        // return an array of 2 bools the 1st bool represents the match between username and password in the database
+        // the 2nd bool represents if it the user is admin or not
+        public bool[] LoginCheck(string username, string password)
+        {
+            bool[] list = new bool[2];
+            try
+            {
+                conn.Open();
+                {
+                    cmnd = new("SELECT Username, [Password], IsAdmin FROM [USER] where Username = @LoginUserName", conn);
+                    cmnd.Parameters.AddWithValue("@LoginUserName", username);
+                    cmnd.Parameters.AddWithValue("@LoginUserPsw", password);
+                    dr = cmnd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        if (dr.GetString(0) == username && dr.GetString(1) == password)
+                        {
+
+                            if (dr.GetBoolean(2))
+                            {
+                                list[0] = true;
+                                list[1] = true;
+                            }
+                            else
+                            {
+                                list[0] = true;
+                                list[1] = false;
+                            }
+                        }
+                        else
+                        {
+                            list[0] = false;
+                            list[1] = false;
+
+                        }
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                EventLogPageViewModel ELog = new();
+                ELog.LogEvent(ex.ToString());
+                MessageBox.Show($"Unexpected Error occured: {ex.ToString()}");
+            }
+            finally
+            {
+                dr.Close();
+                cmnd.Dispose();
+                conn.Close();
+            }
+
+            return list;
+        }
+
+
+
+        
 
 
         // ADMIN - USER METHODS
@@ -299,17 +344,74 @@ namespace DriverLog.Model
             return status;
         }
 
-        public List<EventLogModel> GetEvents()
+        public List<EventLogDTO> GetEvents()
         {
-            List<EventLogModel> list = new();
 
-            conn.Open();
+            List<EventLogDTO> ELs = new();
+            try
             {
-                cmnd = new("SELECT * FROM ");
-            }
-            conn.Close();
 
-            return list;
+                conn.Open();
+                {
+                    cmnd = new("SELECT * FROM EventView");
+                    dr = cmnd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        EventLogDTO EL = new();
+                        EL.Event_Entry = dr.GetString(0);
+                        EL.Username = dr.GetString(1);
+                        EL.Date = dr.GetDateTime(2);
+                        ELs.Add(EL);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Unexpected Error occured: {ex.ToString()}");
+
+            }
+            finally
+            {
+                dr.Close();
+                cmnd.Dispose();
+                conn.Close();
+            }
+
+            return ELs;
+
+        }
+
+
+
+        // EventLog
+        public void AddEventLog(EventLogModel elm)
+        {
+            try
+            {
+                conn.Open();
+                {
+                    cmnd = new("INSERT INTO EVENT_LOG VALUES (@EVENTENTRY, @DateNow, @USERID)", conn);
+                    cmnd.Parameters.AddWithValue("@EVENTENTRY", elm.Event_Entry);
+                    cmnd.Parameters.AddWithValue("@DateNow", elm.Date);
+                    cmnd.Parameters.AddWithValue("@USERID", elm.UserID);
+
+                    da.InsertCommand = cmnd;
+                    da.InsertCommand.ExecuteNonQuery();
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show($"Unexpected Error occured: {ex.ToString()}");
+            }
+            finally
+            {
+                da.Dispose();
+                cmnd.Dispose();
+                conn.Close();
+            }
+            
 
         }
 

@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
 using DriverLog.Messages;
+using DriverLog.Model;
 using DriverLog.View;
 using DriverLog.View.User;
 using DriverLog.ViewModel;
@@ -40,8 +41,7 @@ namespace DriverLog
             //        this.Close();
             //    }
             //}); 
-            
-            
+
             WeakReferenceMessenger.Default.Register<LoginMessage>(this, (reciver, message) =>
             {
                 if (message.Value == "IsAdmin")

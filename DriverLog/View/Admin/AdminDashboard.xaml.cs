@@ -25,9 +25,16 @@ namespace DriverLog.View
     {
         public AdminDashboard()
         {
+
             DataContext = new AdminDashboardViewModel();
             InitializeComponent();
+
+            // Shows HomePage on the "Main" Frame
             Main.Content = new HomePage();
+
+
+
+            // Gets messages / notifications and displays a page, on the main frame, based on the message value
 
             WeakReferenceMessenger.Default.Register<PageMessage>(this, (reciver, message) =>
             {

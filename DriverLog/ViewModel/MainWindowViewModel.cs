@@ -5,6 +5,7 @@ using DriverLog.Messages;
 using DriverLog.Model;
 using DriverLog.View;
 using DriverLog.View.User;
+using DriverLog.ViewModel.Admin;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,11 +14,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using static DriverLog.Model.GlobalUsername;
 
 namespace DriverLog.ViewModel
 {
     public partial class MainWindowViewModel : ObservableObject
     {
+        EventLogPageViewModel evlpvm = new();
 
         [ObservableProperty]
         private string? userName = "Jonas";
@@ -39,7 +42,6 @@ namespace DriverLog.ViewModel
         [ObservableProperty]
         private string? passWord = "123";
 
-        // obsolete code
 
 
         // Instead of the code below, I can use the [RelayCommand] attribute on my method to invoke it on
@@ -56,42 +58,35 @@ namespace DriverLog.ViewModel
         [RelayCommand]
         public void OnLogin()
         {
-
+            bool[] bools = new bool[2];
             SqlHandler sqlh = new();
-
-            sqlh.LoginCheck(UserName, PassWord);
-
+            GlobalUsername.Username = UserName;
 
 
-            //if (UserName == "Jonas" && passWord == "123")
-            //{
-            //    AdminDashboard AD = new AdminDashboard();
-            //    AD.Show();
-            //    notifyWindowToClose();
-            //}
-            //else if (UserName == "Jonas" && passWord == "1234")
-            //{
-            //    UserDashboard UD = new();
-            //    UD.Show();
-            //    notifyWindowToClose();
-            //}
-
-        }
-
-
-
-        public void WrongCredentials()
-        {
-            WeakReferenceMessenger.Default.Register<LoginMessage>(this, (reciver, message) =>
+            bools = sqlh.LoginCheck(UserName, PassWord);
+            if (bools[0] && bools[1])
             {
-                if (message.Value == "WrongCredentials")
-                {
-                    PassWord = "";
-                    UserName = string.Empty;
-                }
-            });
-        }
+                // message to login admin user
+                WeakReferenceMessenger.Default.Send(new LoginMessage("IsAdmin"));
+                //WeakReferenceMessenger.Default.Send(new UsernameMessage(UserName));
+                evlpvm.LogEvent("Login");
+            }
+            else if (bools[0] && !bools[1])
+            {
+                // message to login normal user
+                WeakReferenceMessenger.Default.Send(new LoginMessage("IsUser"));
+                evlpvm.LogEvent("Login");
+            }
+            else
+            {
+                // message to login wrong credentials
+                WeakReferenceMessenger.Default.Send(new LoginMessage("WrongCredentials"));
+                PassWord = "";
+                UserName = string.Empty;
+            }
 
+
+        }
 
         // Creates a message with the text "CloseWindow" and sends it to the view.
         public void notifyWindowToClose()
