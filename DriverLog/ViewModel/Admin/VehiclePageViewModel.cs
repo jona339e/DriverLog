@@ -14,8 +14,8 @@ namespace DriverLog.ViewModel.Admin
     {
 
         public SqlHandler sqlHandler = new();
-      
-        
+        EventLogSubViewModel elsvm = new();
+
         public List<int> vehicleList { get; set; }
       
 
@@ -97,6 +97,7 @@ namespace DriverLog.ViewModel.Admin
 
             MessageBox.Show($"Oprettede {vehicleModel.Model} med Nr. Plade: {vehicleModel.Plate}");
             UpdateIDList();
+            elsvm.LogEvent("Vehicle Created", LogLevel.Information);
 
         }
 
@@ -112,6 +113,8 @@ namespace DriverLog.ViewModel.Admin
 
 
             SetValuesToEmpty();
+            elsvm.LogEvent("Vehicle Edited", LogLevel.Information);
+
         }
 
         [RelayCommand]
@@ -178,6 +181,8 @@ namespace DriverLog.ViewModel.Admin
             MessageBox.Show($"Vehicle {DeleteModel} - {DeletePlate} Deleted");
 
             UpdateIDList();
+            elsvm.LogEvent("Vehicle Deleted", LogLevel.Information);
+
 
         }
 
@@ -190,6 +195,8 @@ namespace DriverLog.ViewModel.Admin
             MessageBox.Show($"Oprettet Status: {ChangeStatus}");
 
             SetValuesToEmpty();
+            elsvm.LogEvent("Vehicle Status Created", LogLevel.Information);
+
 
         }
 

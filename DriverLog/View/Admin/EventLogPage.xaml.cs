@@ -25,6 +25,7 @@ namespace DriverLog.View.Admin
         {
             DataContext = new EventLogPageViewModel();
             InitializeComponent();
+
         }
     }
 }

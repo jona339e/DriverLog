@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using DriverLog.Messages;
 using DriverLog.Model;
@@ -15,19 +16,13 @@ namespace DriverLog.ViewModel.Admin
 {
     public partial class EventLogPageViewModel : ObservableObject
     {
+        [ObservableProperty]
+        private List<EventLogDTO> eventLogs;
 
-        public void LogEvent(string eventType)
+        public EventLogPageViewModel()
         {
             SqlHandler sqlHandler = new();
-
-            EventLogModel elm = new EventLogModel();
-            elm.Event_Entry = eventType;
-            elm.Date = DateTime.Now;
-            elm.UserID = sqlHandler.GetIdFromUsername();
-
-            sqlHandler.AddEventLog(elm);
+            EventLogs = sqlHandler.GetEventLogList();
         }
-
-
     }
 }

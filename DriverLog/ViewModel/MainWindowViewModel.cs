@@ -20,7 +20,7 @@ namespace DriverLog.ViewModel
 {
     public partial class MainWindowViewModel : ObservableObject
     {
-        EventLogPageViewModel evlpvm = new();
+        EventLogSubViewModel evlpvm = new();
 
         [ObservableProperty]
         private string? userName = "Jonas";
@@ -68,14 +68,13 @@ namespace DriverLog.ViewModel
             {
                 // message to login admin user
                 WeakReferenceMessenger.Default.Send(new LoginMessage("IsAdmin"));
-                //WeakReferenceMessenger.Default.Send(new UsernameMessage(UserName));
-                evlpvm.LogEvent("Login");
+                evlpvm.LogEvent("Login", 0);
             }
             else if (bools[0] && !bools[1])
             {
                 // message to login normal user
                 WeakReferenceMessenger.Default.Send(new LoginMessage("IsUser"));
-                evlpvm.LogEvent("Login");
+                evlpvm.LogEvent("Login", 0);
             }
             else
             {

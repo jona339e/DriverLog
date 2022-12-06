@@ -105,9 +105,9 @@ namespace DriverLog.Model
             }
             catch (Exception ex)
             {
-                EventLogPageViewModel ELog = new();
-                ELog.LogEvent(ex.ToString());
-                MessageBox.Show($"Unexpected Error occured: {ex.ToString()}");
+                EventLogSubViewModel ELog = new();
+                ELog.LogEvent(ex.Message, LogLevel.Error);
+                MessageBox.Show($"Unexpected Error occured: {ex.Message}");
             }
             finally
             {
@@ -390,7 +390,8 @@ namespace DriverLog.Model
             {
                 conn.Open();
                 {
-                    cmnd = new("INSERT INTO EVENT_LOG VALUES (@EVENTENTRY, @DateNow, @USERID)", conn);
+                    cmnd = new("INSERT INTO EVENT_LOG VALUES (@EVENTENTRY, @logLevel, @DateNow, @USERID)", conn);
+                    cmnd.Parameters.AddWithValue("@logLevel", Convert.ToInt32(elm.Loglevel));
                     cmnd.Parameters.AddWithValue("@EVENTENTRY", elm.Event_Entry);
                     cmnd.Parameters.AddWithValue("@DateNow", elm.Date);
                     cmnd.Parameters.AddWithValue("@USERID", elm.UserID);
@@ -403,7 +404,7 @@ namespace DriverLog.Model
             catch (Exception ex)
             {
 
-                MessageBox.Show($"Unexpected Error occured: {ex.ToString()}");
+                MessageBox.Show($"Unexpected Error occured: {ex.Message}");
             }
             finally
             {
@@ -413,6 +414,45 @@ namespace DriverLog.Model
             }
             
 
+        }
+
+
+        public List<EventLogDTO> GetEventLogList()
+        {
+            List<EventLogDTO> eventLogDTO= new List<EventLogDTO>();
+
+            try
+            {
+                conn.Open();
+                {
+                    cmnd = new("SELECT * FROM EventView ORDER BY [DATE] DESC", conn);
+                    dr = cmnd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        EventLogDTO dto = new EventLogDTO();
+                        dto.Event_Entry = dr.GetString(0);
+                        dto.Username= dr.GetString(1);
+                        dto.Date = dr.GetDateTime(2);
+                        eventLogDTO.Add(dto);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                EventLogSubViewModel ELog = new();
+                ELog.LogEvent(ex.Message, LogLevel.Error);
+                MessageBox.Show("An error occured while trying to show the EventLog");
+                
+            }
+            finally
+            {
+                dr.Close();
+                conn.Dispose();
+                conn.Close();
+            }
+
+            return eventLogDTO;
         }
 
     }

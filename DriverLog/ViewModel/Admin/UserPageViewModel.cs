@@ -14,6 +14,7 @@ namespace DriverLog.ViewModel.Admin
     {
 
         public SqlHandler sqlHandler = new SqlHandler();
+        EventLogSubViewModel elsvm = new();
 
         public List<int> IDLIST { get; set; }
 
@@ -27,7 +28,7 @@ namespace DriverLog.ViewModel.Admin
 
         [ObservableProperty]
         public bool createIsAdmin = false;
-
+        
 
 
 
@@ -112,6 +113,9 @@ namespace DriverLog.ViewModel.Admin
 
             MessageBox.Show($"User {um.Username} Created. At: {um.Date}");
             UpdateMyIDS();
+            elsvm.LogEvent("User Created", LogLevel.Information);
+
+
         }
 
 
@@ -131,6 +135,8 @@ namespace DriverLog.ViewModel.Admin
 
             MessageBox.Show($"User Edited to : {um.Username}");
             UpdateMyIDS();
+            elsvm.LogEvent("User Edited", LogLevel.Information);
+
 
         }
 
@@ -163,6 +169,7 @@ namespace DriverLog.ViewModel.Admin
             sqlHandler.DeleteUser(DeleteSelectedUserID);
             MessageBox.Show($"User {DeleteUsername} Deleted");
             UpdateMyIDS();
+            elsvm.LogEvent("User Deleted", LogLevel.Information);
         }
 
 
