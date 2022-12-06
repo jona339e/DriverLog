@@ -14,9 +14,6 @@ namespace DriverLog.ViewModel
 {
     public partial class AdminDashboardViewModel : ObservableObject
     {
-        public string Username { get; set; }
-
-
 
         [RelayCommand]
         public void OnHome()

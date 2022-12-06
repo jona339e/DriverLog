@@ -45,9 +45,10 @@
 
             <DataGrid.Columns>
 
-                <DataGridTextColumn Header="Event" Binding="{Binding Event_Entry}" Width="200"/>
-                <DataGridTextColumn Header="Username" Binding="{Binding Username}" Width="200"/>
-                <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="200"/>
+                <DataGridTextColumn Header="LogLevel" Binding="{Binding Loglevel}" Width="150"/>
+                <DataGridTextColumn Header="Event" Binding="{Binding Event_Entry}" Width="150"/>
+                <DataGridTextColumn Header="Username" Binding="{Binding Username}" Width="150"/>
+                <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="150"/>
 
             </DataGrid.Columns>
             

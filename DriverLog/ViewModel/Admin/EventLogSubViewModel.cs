@@ -9,7 +9,6 @@ namespace DriverLog.ViewModel.Admin
 {
     public partial class EventLogSubViewModel: EventLogPageViewModel
     {
-
         public void LogEvent(string eventType, LogLevel loglevel)
         {
             SqlHandler sqlHandler = new();

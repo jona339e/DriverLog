@@ -82,9 +82,7 @@ namespace DriverLog.ViewModel.Admin
 
         public UserPageViewModel()
         {
-
             IDLIST = sqlHandler.GetUserIDList();
-
             UpdateMyIDS();
         }
 
@@ -159,8 +157,6 @@ namespace DriverLog.ViewModel.Admin
                 DeletePassword = string.Empty;
                 DeleteIsAdmin = false;
             }
-
-
         }
 
         [RelayCommand]

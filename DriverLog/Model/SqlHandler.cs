@@ -25,41 +25,61 @@ namespace DriverLog.Model
         public List<int> GetUserIDList()
         {
             List<int> list = new List<int>();
-            conn.Open();
+            try
             {
-                cmnd = new("SELECT ID_USER FROM [USER]", conn);
-
-                dr = cmnd.ExecuteReader();
-                while (dr.Read())
+                conn.Open();
                 {
-                    list.Add(dr.GetInt32(0));
+                    cmnd = new("SELECT ID_USER FROM [USER]", conn);
+
+                    dr = cmnd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        list.Add(dr.GetInt32(0));
+                    }
                 }
             }
-            cmnd.Dispose();
-            dr.Close();
-            conn.Close();
+            catch (Exception ex)
+            {
+                ExceptionCatch(ex);
+
+            }
+            finally
+            {
+                cmnd.Dispose();
+                dr.Close();
+                conn.Close();
+            }
+            
             return list;
         }
 
         public int GetIdFromUsername()
         {
             int userID = 0;
-
-            conn.Open();
+            try
             {
-                cmnd = new("SELECT ID_USER FROM [USER] WHERE Username = @LoggedUser", conn);
-                cmnd.Parameters.AddWithValue("@LoggedUser", GlobalUsername.Username);
-
-                dr = cmnd.ExecuteReader();
-                while (dr.Read())
+                conn.Open();
                 {
-                    userID= dr.GetInt32(0);
+                    cmnd = new("SELECT ID_USER FROM [USER] WHERE Username = @LoggedUser", conn);
+                    cmnd.Parameters.AddWithValue("@LoggedUser", GlobalUsername.Username);
+
+                    dr = cmnd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        userID = dr.GetInt32(0);
+                    }
                 }
             }
-            dr.Close();
-            cmnd.Dispose();
-            conn.Close();
-
+            catch (Exception ex)
+            {
+                ExceptionCatch(ex);
+            }
+            finally
+            {
+                dr.Close();
+                cmnd.Dispose();
+                conn.Close();
+            }
             return userID;
         }
 
@@ -105,9 +125,7 @@ namespace DriverLog.Model
             }
             catch (Exception ex)
             {
-                EventLogSubViewModel ELog = new();
-                ELog.LogEvent(ex.Message, LogLevel.Error);
-                MessageBox.Show($"Unexpected Error occured: {ex.Message}");
+                ExceptionCatch(ex);
             }
             finally
             {
@@ -127,230 +145,321 @@ namespace DriverLog.Model
         // ADMIN - USER METHODS
         public void CreateUser(UserModel um)
         {
-            conn.Open();
+            try
             {
-                cmnd = new("INSERT INTO [USER] VALUES (@CreateUser, @CreatePassword, @CreateDate, @CreateIsAdmin)", conn);
-                cmnd.Parameters.AddWithValue("@CreateUser", um.Username);
-                cmnd.Parameters.AddWithValue("@CreatePassword", um.Password);
-                cmnd.Parameters.AddWithValue("@CreateDate", um.Date);
-                cmnd.Parameters.AddWithValue("@CreateIsAdmin", um.IsAdmin);
+                conn.Open();
+                {
+                    cmnd = new("INSERT INTO [USER] VALUES (@CreateUser, @CreatePassword, @CreateDate, @CreateIsAdmin)", conn);
+                    cmnd.Parameters.AddWithValue("@CreateUser", um.Username);
+                    cmnd.Parameters.AddWithValue("@CreatePassword", um.Password);
+                    cmnd.Parameters.AddWithValue("@CreateDate", um.Date);
+                    cmnd.Parameters.AddWithValue("@CreateIsAdmin", um.IsAdmin);
 
-                da.InsertCommand = cmnd;
-                da.InsertCommand.ExecuteNonQuery();
-
+                    da.InsertCommand = cmnd;
+                    da.InsertCommand.ExecuteNonQuery();
+                }
             }
-            da.Dispose();
-            cmnd.Dispose();
-            conn.Close();
-
+            catch (Exception ex)
+            {
+                ExceptionCatch(ex);
+            }
+            finally
+            {
+                da.Dispose();
+                cmnd.Dispose();
+                conn.Close();
+            }
         }        
 
         public void UpdateUser(UserModel um, int? userID)
         {
-            conn.Open();
+            try
             {
-                cmnd = new("UPDATE [USER] SET USERNAME = @UpdateUsername, PASSWORD = @UpdatePassword, ISADMIN = @UpdateIsAdmin WHERE ID_USER = @UserID",conn);
-                cmnd.Parameters.AddWithValue("@UpdateUsername", um.Username);
-                cmnd.Parameters.AddWithValue("@UpdatePassword", um.Password);
-                cmnd.Parameters.AddWithValue("@UpdateIsAdmin", um.IsAdmin);
-                cmnd.Parameters.AddWithValue("@UserID", userID);
+                conn.Open();
+                {
+                    cmnd = new("UPDATE [USER] SET USERNAME = @UpdateUsername, PASSWORD = @UpdatePassword, ISADMIN = @UpdateIsAdmin WHERE ID_USER = @UserID", conn);
+                    cmnd.Parameters.AddWithValue("@UpdateUsername", um.Username);
+                    cmnd.Parameters.AddWithValue("@UpdatePassword", um.Password);
+                    cmnd.Parameters.AddWithValue("@UpdateIsAdmin", um.IsAdmin);
+                    cmnd.Parameters.AddWithValue("@UserID", userID);
 
-                da.UpdateCommand = cmnd;
-                da.UpdateCommand.ExecuteNonQuery();
+                    da.UpdateCommand = cmnd;
+                    da.UpdateCommand.ExecuteNonQuery();
+                }
             }
-            da.Dispose();
-            cmnd.Dispose();
-            conn.Close();
-
+            catch (Exception ex)
+            {
+                ExceptionCatch(ex);
+            }
+            finally 
+            {
+                da.Dispose();
+                cmnd.Dispose();
+                conn.Close();
+            }
         }
 
         public UserModel GetUserData(int? userID)
         {
             UserModel um = new();
 
-            conn.Open();
+            try
             {
-                cmnd = new("SELECT USERNAME, PASSWORD, ISADMIN FROM [USER] WHERE ID_USER = @USERID", conn);
-                cmnd.Parameters.AddWithValue("@USERID", userID);
-
-                dr = cmnd.ExecuteReader();
-                while (dr.Read())
+                conn.Open();
                 {
-                    um.Username = dr.GetString(0);
-                    um.Password= dr.GetString(1);
-                    um.IsAdmin= dr.GetBoolean(2);
+                    cmnd = new("SELECT USERNAME, PASSWORD, ISADMIN FROM [USER] WHERE ID_USER = @USERID", conn);
+                    cmnd.Parameters.AddWithValue("@USERID", userID);
+
+                    dr = cmnd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        um.Username = dr.GetString(0);
+                        um.Password = dr.GetString(1);
+                        um.IsAdmin = dr.GetBoolean(2);
+                    }
                 }
             }
-            dr.Close();
-            cmnd.Dispose();
-            conn.Close();
+            catch (Exception ex)
+            {
+                ExceptionCatch(ex);
+            }
+            finally
+            {
+                dr.Close();
+                cmnd.Dispose();
+                conn.Close();
+            }
             return um;
         }
 
         public void DeleteUser(int? userID)
         {
-            conn.Open();
+            try
             {
-                cmnd = new("DELETE FROM [USER] WHERE ID_USER = @USERID", conn);
-                cmnd.Parameters.AddWithValue("@USERID", userID);
+                conn.Open();
+                {
+                    cmnd = new("DELETE FROM [USER] WHERE ID_USER = @USERID", conn);
+                    cmnd.Parameters.AddWithValue("@USERID", userID);
 
-                da.DeleteCommand = cmnd;
-                da.DeleteCommand.ExecuteNonQuery();
-
+                    da.DeleteCommand = cmnd;
+                    da.DeleteCommand.ExecuteNonQuery();
+                }
             }
-            cmnd.Dispose();
-            da.Dispose();
-            conn.Close();
-
+            catch (Exception ex)
+            {
+                ExceptionCatch(ex);
+            }
+            finally
+            {
+                da.Dispose();
+                cmnd.Dispose();
+                conn.Close();
+            }
         }
-
-
 
 
         // ADMIN - VEHICLE METHODS
 
         public void CreateVehicle(VehicleModel vm)
         {
-            conn.Open();
+            try
             {
-                cmnd = new("INSERT INTO Vehicle VALUES (@CreateModel, @CreatePlate, @CreateStatus)", conn);
-                cmnd.Parameters.AddWithValue("@CreateModel", vm.Model);
-                cmnd.Parameters.AddWithValue("@CreatePlate", vm.Plate);
-                cmnd.Parameters.AddWithValue("@CreateStatus", vm.Status);
+                conn.Open();
+                {
+                    cmnd = new("INSERT INTO Vehicle VALUES (@CreateModel, @CreatePlate, @CreateStatus)", conn);
+                    cmnd.Parameters.AddWithValue("@CreateModel", vm.Model);
+                    cmnd.Parameters.AddWithValue("@CreatePlate", vm.Plate);
+                    cmnd.Parameters.AddWithValue("@CreateStatus", vm.Status);
 
-
-                da.InsertCommand = cmnd;
-                da.InsertCommand.ExecuteNonQuery();
+                    da.InsertCommand = cmnd;
+                    da.InsertCommand.ExecuteNonQuery();
+                }
             }
-            da.Dispose();
-            cmnd.Dispose();
-            conn.Close();
-
+            catch (Exception ex)
+            {
+                ExceptionCatch(ex);
+            }
+            finally
+            {
+                da.Dispose();
+                cmnd.Dispose();
+                conn.Close();
+            }
         }
 
         public void UpdateVehicle(VehicleModel vm, int? ID)
         {
-            conn.Open();
+            try
             {
+                conn.Open();
+                {
+                    cmnd = new("UPDATE VEHICLE SET MODEL = @UpdateModel, PLATE = @UpdatePlate WHERE ID_VEHICLE = @ID", conn);
+                    cmnd.Parameters.AddWithValue("@UpdateModel", vm.Model);
+                    cmnd.Parameters.AddWithValue("@UpdatePlate", vm.Plate);
+                    cmnd.Parameters.AddWithValue("@ID", ID);
 
-                cmnd = new("UPDATE VEHICLE SET MODEL = @UpdateModel, PLATE = @UpdatePlate WHERE ID_VEHICLE = @ID", conn);
-                cmnd.Parameters.AddWithValue("@UpdateModel", vm.Model);
-                cmnd.Parameters.AddWithValue("@UpdatePlate", vm.Plate);
-                cmnd.Parameters.AddWithValue("@ID", ID);
-
-                da.UpdateCommand = cmnd;
-                da.UpdateCommand.ExecuteNonQuery();
-
+                    da.UpdateCommand = cmnd;
+                    da.UpdateCommand.ExecuteNonQuery();
+                }
             }
-            da.Dispose();
-            cmnd.Dispose();
-            conn.Close();
+            catch (Exception ex)
+            {
+                ExceptionCatch(ex);
+            }
+            finally
+            {
+                da.Dispose();
+                cmnd.Dispose();
+                conn.Close();
+            }
         }
 
         public VehicleModel GetVehicleData(int? vehicleID)
         {
             VehicleModel vm = new();
-
-            conn.Open();
+            try
             {
-                cmnd = new("SELECT Model, Plate FROM Vehicle WHERE ID_VEHICLE = @VEHICLEID", conn);
-                cmnd.Parameters.AddWithValue("@VEHICLEID", vehicleID);
-
-                dr = cmnd.ExecuteReader();
-                while (dr.Read())
+                conn.Open();
                 {
-                    vm.Model= dr.GetString(0);
-                    vm.Plate= dr.GetString(1);
-                    
+                    cmnd = new("SELECT Model, Plate FROM Vehicle WHERE ID_VEHICLE = @VEHICLEID", conn);
+                    cmnd.Parameters.AddWithValue("@VEHICLEID", vehicleID);
+
+                    dr = cmnd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        vm.Model = dr.GetString(0);
+                        vm.Plate = dr.GetString(1);
+                    }
                 }
             }
-            cmnd.Dispose();
-            dr.Close();
-            conn.Close();
+            catch (Exception ex)
+            {
+                ExceptionCatch(ex);
+            }
+            finally
+            {
+                cmnd.Dispose();
+                dr.Close();
+                conn.Close();
+            }
             return vm;
         }
 
         public void UpdateStatus(string? status, int? ID)
         {
-            conn.Open();
+            try
             {
+                conn.Open();
+                {
+                    cmnd = new("UPDATE VEHICLE SET STATUS = @UpdateStatus WHERE ID_VEHICLE = @ID", conn);
+                    cmnd.Parameters.AddWithValue("@UpdateStatus", status);
+                    cmnd.Parameters.AddWithValue("@ID", ID);
 
-                cmnd = new("UPDATE VEHICLE SET STATUS = @UpdateStatus WHERE ID_VEHICLE = @ID", conn);
-                cmnd.Parameters.AddWithValue("@UpdateStatus", status);
-                cmnd.Parameters.AddWithValue("@ID", ID);
-
-                da.UpdateCommand = cmnd;
-                da.UpdateCommand.ExecuteNonQuery();
-
+                    da.UpdateCommand = cmnd;
+                    da.UpdateCommand.ExecuteNonQuery();
+                }
             }
-            da.Dispose();
-            cmnd.Dispose();
-            conn.Close();
+            catch (Exception ex)
+            {
+                ExceptionCatch(ex);
+            }
+            finally
+            {
+                da.Dispose();
+                cmnd.Dispose();
+                conn.Close();
+            }
         }
-
 
         public List<int> GetVehicleIDList()
         {
             List<int> list = new List<int>();
-            conn.Open();
+            try
             {
-                cmnd = new("SELECT ID_Vehicle FROM Vehicle", conn);
-
-                dr = cmnd.ExecuteReader();
-                while (dr.Read())
+                conn.Open();
                 {
-                    list.Add(dr.GetInt32(0));
+                    cmnd = new("SELECT ID_Vehicle FROM Vehicle", conn);
+
+                    dr = cmnd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        list.Add(dr.GetInt32(0));
+                    }
                 }
             }
-            cmnd.Dispose();
-            dr.Close();
-            conn.Close();
+            catch (Exception ex)
+            {
+                ExceptionCatch(ex);
+            }
+            finally
+            {
+                cmnd.Dispose();
+                dr.Close();
+                conn.Close();
+            }
             return list;
         }
 
         public void DeleteVehicle(int? vehicleID)
         {
-            conn.Open();
+            try
             {
-                cmnd = new("DELETE FROM Vehicle WHERE ID_Vehicle = @ID", conn);
-                cmnd.Parameters.AddWithValue("@ID", vehicleID);
+                conn.Open();
+                {
+                    cmnd = new("DELETE FROM Vehicle WHERE ID_Vehicle = @ID", conn);
+                    cmnd.Parameters.AddWithValue("@ID", vehicleID);
 
-                da.DeleteCommand = cmnd;
-                da.DeleteCommand.ExecuteNonQuery();
-
+                    da.DeleteCommand = cmnd;
+                    da.DeleteCommand.ExecuteNonQuery();
+                }
             }
-            cmnd.Dispose();
-            da.Dispose();
-            conn.Close();
+            catch (Exception ex)
+            {
+                ExceptionCatch(ex);
+            }
+            finally
+            {
+                cmnd.Dispose();
+                da.Dispose();
+                conn.Close();
+            }
         }
 
         public string GetStatusData(int? statusSelectedVehicleID)
         {
             string status = "";
-            conn.Open();
+            try
             {
-                cmnd = new("SELECT STATUS FROM VEHICLE WHERE ID_VEHICLE = @ID", conn);
-                cmnd.Parameters.AddWithValue("@ID",statusSelectedVehicleID);
-
-                dr= cmnd.ExecuteReader();
-                while (dr.Read()) 
+                conn.Open();
                 {
-                    status = dr.GetString(0);
+                    cmnd = new("SELECT STATUS FROM VEHICLE WHERE ID_VEHICLE = @ID", conn);
+                    cmnd.Parameters.AddWithValue("@ID", statusSelectedVehicleID);
+
+                    dr = cmnd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        status = dr.GetString(0);
+                    }
                 }
             }
-            dr.Close();
-            cmnd.Dispose();
-            conn.Close();
+            catch (Exception ex)
+            {
+                ExceptionCatch(ex);
+            }
+            finally
+            {
+                dr.Close();
+                cmnd.Dispose();
+                conn.Close();
+            }
             return status;
         }
 
         public List<EventLogDTO> GetEvents()
         {
-
             List<EventLogDTO> ELs = new();
             try
             {
-
                 conn.Open();
                 {
                     cmnd = new("SELECT * FROM EventView");
@@ -368,7 +477,6 @@ namespace DriverLog.Model
             catch (Exception ex)
             {
                 MessageBox.Show($"Unexpected Error occured: {ex.ToString()}");
-
             }
             finally
             {
@@ -376,11 +484,8 @@ namespace DriverLog.Model
                 cmnd.Dispose();
                 conn.Close();
             }
-
             return ELs;
-
         }
-
 
 
         // EventLog
@@ -403,7 +508,6 @@ namespace DriverLog.Model
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show($"Unexpected Error occured: {ex.Message}");
             }
             finally
@@ -412,15 +516,12 @@ namespace DriverLog.Model
                 cmnd.Dispose();
                 conn.Close();
             }
-            
-
         }
 
 
         public List<EventLogDTO> GetEventLogList()
         {
             List<EventLogDTO> eventLogDTO= new List<EventLogDTO>();
-
             try
             {
                 conn.Open();
@@ -430,20 +531,17 @@ namespace DriverLog.Model
                     while (dr.Read())
                     {
                         EventLogDTO dto = new EventLogDTO();
-                        dto.Event_Entry = dr.GetString(0);
-                        dto.Username= dr.GetString(1);
-                        dto.Date = dr.GetDateTime(2);
+                        dto.Loglevel = (LogLevel)dr.GetInt16(0);
+                        dto.Event_Entry = dr.GetString(1);
+                        dto.Username= dr.GetString(2);
+                        dto.Date = dr.GetDateTime(3);
                         eventLogDTO.Add(dto);
                     }
                 }
             }
             catch (Exception ex)
             {
-
-                EventLogSubViewModel ELog = new();
-                ELog.LogEvent(ex.Message, LogLevel.Error);
                 MessageBox.Show("An error occured while trying to show the EventLog");
-                
             }
             finally
             {
@@ -451,8 +549,14 @@ namespace DriverLog.Model
                 conn.Dispose();
                 conn.Close();
             }
-
             return eventLogDTO;
+        }
+
+        private void ExceptionCatch(Exception ex)
+        {
+            EventLogSubViewModel ELog = new();
+            ELog.LogEvent(ex.Message, LogLevel.Error);
+            MessageBox.Show($"Unexpected Error occured: {ex.Message}");
         }
 
     }
