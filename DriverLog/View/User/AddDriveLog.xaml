@@ -54,24 +54,34 @@
         <TextBlock Grid.Row="7" Grid.Column="2" 
                    Text="Afstand Kørt (Km):" Margin="10" />
 
-        <ComboBox Grid.Row="2" Grid.Column="3" Margin="10" ItemsSource="{Binding Users}">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Username}"/>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
+
+        <TextBox Text="{Binding Username}" IsReadOnly="True"
+                 Grid.Row="2" Grid.Column="3" Margin="10"/>
+
+        <ComboBox Grid.Row="3" Grid.Column="3" Margin="10" 
+                  ItemsSource="{Binding PlateList}"
+                  SelectedItem="{Binding SelectedPlate}">
+
         </ComboBox>
-        
-        <ComboBox Grid.Row="3" Grid.Column="3" Margin="10"/>
 
-        <DatePicker Grid.Row="4" Grid.Column="3" Margin="10"/>
+        <DatePicker Grid.Row="4" Grid.Column="3" Margin="10"
+                    Text="{Binding DatePick, StringFormat=d, ConverterCulture=da-DK}"
+                    
+                    />
 
-        <TextBox Grid.Row="5" Grid.Column="3" Margin="10" />
-        
-        <TextBox Grid.Row="6" Grid.Column="3" Margin="10" />
-        
-        <TextBox Grid.Row="7" Grid.Column="3" Margin="10" />
+        <TextBox Grid.Row="5" Grid.Column="3" Margin="10" 
+                 Text="{Binding StartTime, StringFormat=t}"/>
 
+        <TextBox Grid.Row="6" Grid.Column="3" Margin="10" 
+                 Text="{Binding EndTime, StringFormat=t}"/>
+        
+        <TextBox Grid.Row="7" Grid.Column="3" Margin="10" 
+                 Text="{Binding Distance, ConverterCulture=da-DK}"
+                 PreviewTextInput="TextBox_PreviewTextInput"
+                 />
+
+        
+        
         <Button Grid.Row="8" Grid.Column="2" Margin="10"
                 Content="Cancel" Command="{Binding AddDriveCancelCommand}"/>
         

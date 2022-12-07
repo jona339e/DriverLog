@@ -9,16 +9,23 @@ namespace DriverLog.ViewModel.Admin
 {
     public partial class EventLogSubViewModel: EventLogPageViewModel
     {
-        public void LogEvent(string eventType, LogLevel loglevel)
+        public EventLogModel LogEvent(string eventType, LogLevel loglevel, int ID)
         {
-            SqlHandler sqlHandler = new();
-
             EventLogModel elm = new EventLogModel();
             elm.Event_Entry = eventType;
             elm.Date = DateTime.Now;
-            elm.UserID = sqlHandler.GetIdFromUsername();
+            elm.UserID = ID; 
             elm.Loglevel = loglevel;
-
+            return elm;
+        }        
+        public void LogEvent(string eventType, LogLevel loglevel)
+        {
+            SqlHandler sqlHandler= new SqlHandler();
+            EventLogModel elm = new EventLogModel();
+            elm.Event_Entry = eventType;
+            elm.Date = DateTime.Now;
+            elm.UserID = sqlHandler.GetIdFromUsername(); 
+            elm.Loglevel = loglevel;
             sqlHandler.AddEventLog(elm);
         }
     }

@@ -10,5 +10,8 @@ namespace DriverLog.ViewModel.Admin
     public partial class DriversLogPageViewModel : ObservableObject
     {
 
+
+
+
     }
 }

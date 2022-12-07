@@ -40,7 +40,7 @@ namespace DriverLog.Model
             }
             catch (Exception ex)
             {
-                ExceptionCatch(ex);
+                ErrorCatch(ex);
 
             }
             finally
@@ -55,6 +55,7 @@ namespace DriverLog.Model
 
         public int GetIdFromUsername()
         {
+            // connection is open???
             int userID = 0;
             try
             {
@@ -72,7 +73,7 @@ namespace DriverLog.Model
             }
             catch (Exception ex)
             {
-                ExceptionCatch(ex);
+                ErrorCatch(ex);
             }
             finally
             {
@@ -101,7 +102,6 @@ namespace DriverLog.Model
                     {
                         if (dr.GetString(0) == username && dr.GetString(1) == password)
                         {
-
                             if (dr.GetBoolean(2))
                             {
                                 list[0] = true;
@@ -117,15 +117,13 @@ namespace DriverLog.Model
                         {
                             list[0] = false;
                             list[1] = false;
-
                         }
                     }
-
                 }
             }
             catch (Exception ex)
             {
-                ExceptionCatch(ex);
+                ErrorCatch(ex);
             }
             finally
             {
@@ -133,7 +131,6 @@ namespace DriverLog.Model
                 cmnd.Dispose();
                 conn.Close();
             }
-
             return list;
         }
 
@@ -161,7 +158,7 @@ namespace DriverLog.Model
             }
             catch (Exception ex)
             {
-                ExceptionCatch(ex);
+                ErrorCatch(ex);
             }
             finally
             {
@@ -189,7 +186,7 @@ namespace DriverLog.Model
             }
             catch (Exception ex)
             {
-                ExceptionCatch(ex);
+                ErrorCatch(ex);
             }
             finally 
             {
@@ -221,7 +218,7 @@ namespace DriverLog.Model
             }
             catch (Exception ex)
             {
-                ExceptionCatch(ex);
+                ErrorCatch(ex);
             }
             finally
             {
@@ -247,7 +244,7 @@ namespace DriverLog.Model
             }
             catch (Exception ex)
             {
-                ExceptionCatch(ex);
+                ErrorCatch(ex);
             }
             finally
             {
@@ -277,7 +274,7 @@ namespace DriverLog.Model
             }
             catch (Exception ex)
             {
-                ExceptionCatch(ex);
+                ErrorCatch(ex);
             }
             finally
             {
@@ -304,7 +301,7 @@ namespace DriverLog.Model
             }
             catch (Exception ex)
             {
-                ExceptionCatch(ex);
+                ErrorCatch(ex);
             }
             finally
             {
@@ -334,7 +331,7 @@ namespace DriverLog.Model
             }
             catch (Exception ex)
             {
-                ExceptionCatch(ex);
+                ErrorCatch(ex);
             }
             finally
             {
@@ -361,7 +358,7 @@ namespace DriverLog.Model
             }
             catch (Exception ex)
             {
-                ExceptionCatch(ex);
+                ErrorCatch(ex);
             }
             finally
             {
@@ -389,7 +386,7 @@ namespace DriverLog.Model
             }
             catch (Exception ex)
             {
-                ExceptionCatch(ex);
+                ErrorCatch(ex);
             }
             finally
             {
@@ -415,7 +412,7 @@ namespace DriverLog.Model
             }
             catch (Exception ex)
             {
-                ExceptionCatch(ex);
+                ErrorCatch(ex);
             }
             finally
             {
@@ -444,7 +441,7 @@ namespace DriverLog.Model
             }
             catch (Exception ex)
             {
-                ExceptionCatch(ex);
+                ErrorCatch(ex);
             }
             finally
             {
@@ -546,18 +543,76 @@ namespace DriverLog.Model
             finally
             {
                 dr.Close();
-                conn.Dispose();
+                cmnd.Dispose();
                 conn.Close();
             }
             return eventLogDTO;
         }
 
-        private void ExceptionCatch(Exception ex)
+        private void ErrorCatch(Exception ex)
         {
+            conn.Close();
             EventLogSubViewModel ELog = new();
-            ELog.LogEvent(ex.Message, LogLevel.Error);
+            AddEventLog(ELog.LogEvent(ex.Message, LogLevel.Error, GetIdFromUsername()));
             MessageBox.Show($"Unexpected Error occured: {ex.Message}");
         }
 
+        public List<string> GetPlateList()
+        {
+            List<string> PlateList= new List<string>();
+            try
+            {
+                conn.Open();
+                {
+                    cmnd = new("SELECT Plate FROM Vehicle", conn); 
+                    dr = cmnd.ExecuteReader();
+                    while (dr.Read()) 
+                    { 
+                        PlateList.Add(dr.GetString(0));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorCatch(ex);
+            }
+            finally
+            {
+                dr.Close();
+                cmnd.Dispose();
+                conn.Close();
+            }
+            return PlateList;
+        }
+
+        public void CreateDriveLog(AddDriveLogDTO AddDTO)
+        {
+            try
+            {
+                conn.Open();
+                {
+                    cmnd = new("INSERT INTO DRIVELOG VALUES(@ADDUSERNAME, @ADDPLATE, @ADDDATE, @ADDSTARTTIME, @ADDENDTIME, @ADDDISTANCE)",conn);
+                    cmnd.Parameters.AddWithValue("@ADDUSERNAME",AddDTO.Username);
+                    cmnd.Parameters.AddWithValue("@ADDPLATE",AddDTO.Plate);
+                    cmnd.Parameters.AddWithValue("@ADDDATE",AddDTO.Date);
+                    cmnd.Parameters.AddWithValue("@ADDSTARTTIME",AddDTO.StartTime);
+                    cmnd.Parameters.AddWithValue("@ADDENDTIME",AddDTO.EndTime);
+                    cmnd.Parameters.AddWithValue("@ADDDISTANCE",AddDTO.Distance);
+
+                    cmnd.ExecuteNonQuery();
+                    MessageBox.Show("KørselsLog Oprettet!");
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorCatch(ex);
+            }
+            finally
+            {
+                cmnd.Dispose();
+                conn.Close();
+            }
+
+        }
     }
 }
