@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DriverLog.Model
 {
-    public class AddDriveLogDTO
+    public class DriveLogDTO
     {
         public string Username { get; set; }
         public string Plate { get; set; }

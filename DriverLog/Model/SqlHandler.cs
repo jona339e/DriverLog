@@ -4,6 +4,7 @@ using DriverLog.ViewModel.Admin;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -559,7 +560,7 @@ namespace DriverLog.Model
 
         public List<string> GetPlateList()
         {
-            List<string> PlateList= new List<string>();
+            List<string> PlateList = new List<string>();
             try
             {
                 conn.Open();
@@ -585,7 +586,7 @@ namespace DriverLog.Model
             return PlateList;
         }
 
-        public void CreateDriveLog(AddDriveLogDTO AddDTO)
+        public void CreateDriveLog(DriveLogDTO AddDTO)
         {
             try
             {
@@ -613,6 +614,79 @@ namespace DriverLog.Model
                 conn.Close();
             }
 
+        }
+
+        internal List<string> GetUsernameList()
+        {
+            List<string> names = new();
+            try
+            {
+                conn.Open();
+                {
+                    cmnd = new("SELECT Username FROM [USER]", conn);
+                    dr = cmnd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        names.Add(dr.GetString(0));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorCatch(ex);
+            }
+            finally 
+            {
+                dr.Close();
+                cmnd.Dispose();
+                conn.Close();
+            }
+            return names;
+        }
+
+        internal List<DriveLogDTO> GetDriveLog(string SelectedUser)
+        {
+            List<DriveLogDTO> data = new();
+            try
+            {
+                conn.Open();
+                {
+                    cmnd = new("SELECT Username, Plate, Date, StartTime, EndTime, Distance FROM DriveLog WHERE Username = @user", conn);
+                    cmnd.Parameters.AddWithValue("@user", SelectedUser);
+
+                    dr = cmnd.ExecuteReader();
+                    while (dr.Read()) 
+                    {
+                        DriveLogDTO dto = new();
+
+                        dto.Username = dr.GetString(0);
+                        dto.Plate = dr.GetString(1);
+
+                        // Convert the datetime to HH:mm format
+
+                        dto.Date = dr.GetDateTime(2);
+                        dto.StartTime = dr.GetDateTime(3);
+                        dto.EndTime = dr.GetDateTime(4);
+
+
+
+                        dto.Distance = dr.GetInt32(5);
+
+                        data.Add(dto);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorCatch(ex);
+            }
+            finally
+            {
+                dr.Close();
+                cmnd.Dispose();
+                conn.Close();
+            }
+            return data;
         }
     }
 }

@@ -41,5 +41,6 @@ namespace DriverLog.View.User
             Regex rx = new("[^0-9]+");
             e.Handled = rx.IsMatch(e.Text);
         }
+
     }
 }

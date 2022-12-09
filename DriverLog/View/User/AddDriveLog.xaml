@@ -69,19 +69,20 @@
                     
                     />
 
-        <TextBox Grid.Row="5" Grid.Column="3" Margin="10" 
-                 Text="{Binding StartTime, StringFormat=t}"/>
+        <TextBox Grid.Row="5" Grid.Column="3" Margin="10"
+                 Text="{Binding StartTime}"
+                 />
 
-        <TextBox Grid.Row="6" Grid.Column="3" Margin="10" 
-                 Text="{Binding EndTime, StringFormat=t}"/>
-        
+        <TextBox Grid.Row="6" Grid.Column="3" Margin="10"
+                 Text="{Binding EndTime}"
+
+                 />
+
         <TextBox Grid.Row="7" Grid.Column="3" Margin="10" 
-                 Text="{Binding Distance, ConverterCulture=da-DK}"
+                 Text="{Binding Distance}"
                  PreviewTextInput="TextBox_PreviewTextInput"
                  />
 
-        
-        
         <Button Grid.Row="8" Grid.Column="2" Margin="10"
                 Content="Cancel" Command="{Binding AddDriveCancelCommand}"/>
         

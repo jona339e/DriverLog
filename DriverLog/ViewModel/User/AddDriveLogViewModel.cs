@@ -31,10 +31,10 @@ namespace DriverLog.ViewModel.User
         DateTime datePick = DateTime.Now;
 
         [ObservableProperty]
-        string startTime;
+        string startTime = "HH:mm";
 
         [ObservableProperty]
-        string endTime;
+        string endTime = "HH:mm";
 
         [ObservableProperty]
         int distance;
@@ -56,7 +56,7 @@ namespace DriverLog.ViewModel.User
             DateTime TimeStart = DateTime.ParseExact(StartTime, "HH:mm", CultureInfo.CurrentCulture) ;
             DateTime TimeEnd = DateTime.ParseExact(EndTime, "HH:mm", CultureInfo.CurrentUICulture) ;
 
-            AddDriveLogDTO AddDTO = new();
+            DriveLogDTO AddDTO = new();
             AddDTO.Username = username;
             AddDTO.Plate = selectedPlate;
             AddDTO.Date = datePick;
