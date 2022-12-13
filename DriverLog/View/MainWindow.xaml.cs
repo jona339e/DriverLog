@@ -42,6 +42,12 @@ namespace DriverLog
             //    }
             //}); 
 
+            MessageRegisterer();
+
+        }
+
+        private void MessageRegisterer()
+        {
             WeakReferenceMessenger.Default.Register<LoginMessage>(this, (reciver, message) =>
             {
                 if (message.Value == "IsAdmin")
@@ -50,23 +56,20 @@ namespace DriverLog
                     AD.Show();
                     this.Close();
                 }
-                else if(message.Value == "IsUser")
+                else if (message.Value == "IsUser")
                 {
                     UserDashboard ud = new();
                     ud.Show();
                     this.Close();
                 }
-                else if(message.Value == "WrongCredentials")
+                else if (message.Value == "WrongCredentials")
                 {
                     MessageBox.Show("Wrong Credentials. Try Again");
                 }
             });
-
-
-
         }
 
-        
+
 
 
         // As this is stil the view, we have to send data from here to the ViewModel.

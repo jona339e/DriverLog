@@ -36,6 +36,11 @@ namespace DriverLog.View
 
             // Gets messages / notifications and displays a page, on the main frame, based on the message value
 
+            MessageRegisterer();
+        }
+
+        private void MessageRegisterer()
+        {
             WeakReferenceMessenger.Default.Register<PageMessage>(this, (reciver, message) =>
             {
                 if (message.Value == "Home")

@@ -27,13 +27,19 @@ namespace DriverLog.View.User
             DataContext = new UserDashboardViewModel();
             InitializeComponent();
 
+            MessageRegisterer();
+
+        }
+
+        private void MessageRegisterer()
+        {
             WeakReferenceMessenger.Default.Register<UserWindowControlMessage>(this, (reciver, message) =>
             {
                 if (message.Value == "CloseWindow")
                 {
                     this.Close();
                 }
-            });            
+            });
 
             WeakReferenceMessenger.Default.Register<DriveLogWindowControlMessage>(this, (reciver, message) =>
             {
@@ -43,7 +49,6 @@ namespace DriverLog.View.User
                     ADL.Show();
                 }
             });
-
         }
     }
 }

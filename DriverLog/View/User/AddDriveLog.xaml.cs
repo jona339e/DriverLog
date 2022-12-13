@@ -36,6 +36,8 @@ namespace DriverLog.View.User
                 }
             });
         }
+
+        // the priveiwtextinput can't be used on strings
         private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             Regex rx = new("[^0-9]+");

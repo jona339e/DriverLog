@@ -453,40 +453,10 @@ namespace DriverLog.Model
             return status;
         }
 
-        public List<EventLogDTO> GetEvents()
-        {
-            List<EventLogDTO> ELs = new();
-            try
-            {
-                conn.Open();
-                {
-                    cmnd = new("SELECT * FROM EventView");
-                    dr = cmnd.ExecuteReader();
-                    while (dr.Read())
-                    {
-                        EventLogDTO EL = new();
-                        EL.Event_Entry = dr.GetString(0);
-                        EL.Username = dr.GetString(1);
-                        EL.Date = dr.GetDateTime(2);
-                        ELs.Add(EL);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Unexpected Error occured: {ex.ToString()}");
-            }
-            finally
-            {
-                dr.Close();
-                cmnd.Dispose();
-                conn.Close();
-            }
-            return ELs;
-        }
 
 
         // EventLog
+
         public void AddEventLog(EventLogModel elm)
         {
             try
@@ -550,6 +520,8 @@ namespace DriverLog.Model
             return eventLogDTO;
         }
 
+
+        // sql Error handling
         private void ErrorCatch(Exception ex)
         {
             conn.Close();
@@ -557,6 +529,8 @@ namespace DriverLog.Model
             AddEventLog(ELog.LogEvent(ex.Message, LogLevel.Error, GetIdFromUsername()));
             MessageBox.Show($"Unexpected Error occured: {ex.Message}");
         }
+
+
 
         public List<string> GetPlateList()
         {
@@ -688,5 +662,29 @@ namespace DriverLog.Model
             }
             return data;
         }
+
+        // This should be the way to use sqlconnection instead of the way I do it now
+        // This closes the connection without having to explicitly type conn.close();
+        private void test()
+        {
+            try
+            {
+                //private SqlConnection? conn = new(sqlconn);
+                using (SqlConnection? conn = new(sqlconn))
+                {
+                    // not sure if I need to open connection here but I probably do
+                    using (SqlDataAdapter da = new())
+                    {
+                        // A lot of nesting
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                ErrorCatch(ex);
+            }
+        }
+
     }
 }

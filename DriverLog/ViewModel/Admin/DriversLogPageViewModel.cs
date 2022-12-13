@@ -27,6 +27,9 @@ namespace DriverLog.ViewModel.Admin
         [ObservableProperty]
         public List<DriveLogDTO> userLogData;
 
+        [ObservableProperty]
+        public List<DriveLogDTO> plateLogData;
+
 
         public DriversLogPageViewModel()
         {
