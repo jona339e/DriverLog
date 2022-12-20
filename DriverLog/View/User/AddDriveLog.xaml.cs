@@ -28,6 +28,8 @@ namespace DriverLog.View.User
             DataContext = new AddDriveLogViewModel();
             InitializeComponent();
 
+
+            // closes window if message is recieved.
             WeakReferenceMessenger.Default.Register<DriveLogWindowControlMessage>(this, (reciver, message) =>
             {
                 if (message.Value == "CloseWindow")
@@ -40,6 +42,7 @@ namespace DriverLog.View.User
         // the priveiwtextinput can't be used on strings
         private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
+            // regex that dictates input can only be numbers 0-9. if another key is pressed it won't register as an input.
             Regex rx = new("[^0-9]+");
             e.Handled = rx.IsMatch(e.Text);
         }

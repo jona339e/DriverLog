@@ -27,7 +27,7 @@ namespace DriverLog.View.User
             DataContext = new UserDashboardViewModel();
             InitializeComponent();
 
-            MessageRegisterer();
+            MessageRegisterer(); // method to recieve messages and take action from message
 
         }
 

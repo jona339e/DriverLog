@@ -16,11 +16,16 @@ namespace DriverLog.ViewModel.Admin
 {
     public partial class EventLogPageViewModel : ObservableObject
     {
+        
+        // list of eventlogs
         [ObservableProperty]
         private List<EventLogDTO> eventLogs;
 
+
+        // constructor
         public EventLogPageViewModel()
         {
+            // gets eventlog list from database
             SqlHandler sqlHandler = new();
             EventLogs = sqlHandler.GetEventLogList();
         }

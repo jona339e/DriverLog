@@ -13,9 +13,13 @@
         Background="AntiqueWhite"
         
         >
-
+    <!--The d:DataContext seen in the Window enables intellisense 
+        for properties in MainWindowViewModel-->
 
     <Grid>
+        
+        <!--defines the rows and columns * meaning fill the page out, 
+        auto meaning auto fill the row or grid out with whatever object is inside it-->
         
         <Grid.ColumnDefinitions>
 
@@ -41,6 +45,13 @@
             
         </Grid.RowDefinitions>
 
+        
+        <!--bindings are bound to the datacontext set in the code behind
+        in this case MainWindowViewModel-->
+        
+        <!--bindings ending in Command like LoginCommand
+        binds to methods in the datacontext-->
+        
         <TextBlock Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
                    Text="KørselsLog Login" TextAlignment="Center" MaxWidth="140"
                    Margin="0,3,0,10"/>

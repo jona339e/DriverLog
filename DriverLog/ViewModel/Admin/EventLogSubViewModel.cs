@@ -9,6 +9,8 @@ namespace DriverLog.ViewModel.Admin
 {
     public partial class EventLogSubViewModel: EventLogPageViewModel
     {
+        // takes data and stores it in database
+
         public EventLogModel LogEvent(string eventType, LogLevel loglevel, int ID)
         {
             EventLogModel elm = new EventLogModel();
@@ -18,6 +20,8 @@ namespace DriverLog.ViewModel.Admin
             elm.Loglevel = loglevel;
             return elm;
         }        
+
+        // overload of above method
         public void LogEvent(string eventType, LogLevel loglevel)
         {
             SqlHandler sqlHandler= new SqlHandler();
@@ -29,7 +33,7 @@ namespace DriverLog.ViewModel.Admin
             sqlHandler.AddEventLog(elm);
         }
     }
-    public enum LogLevel
+    public enum LogLevel // enum that shows the level of eventLog
     {
         Information,
         Warning,

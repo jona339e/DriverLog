@@ -55,12 +55,14 @@ namespace DriverLog.ViewModel
         //}
 
 
+
+        // Method that is called when the login button is pressed.
         [RelayCommand]
         public void OnLogin()
         {
-            bool[] bools = new bool[2];
-            SqlHandler sqlh = new();
-            GlobalUsername.Username = UserName;
+
+            bool[] bools = new bool[2]; // array of 2 bools to check if user exists and is admin or not. Not the best way to do this.
+            SqlHandler sqlh = new(); 
 
 
             bools = sqlh.LoginCheck(UserName, PassWord);
@@ -68,12 +70,14 @@ namespace DriverLog.ViewModel
             {
                 // message to login admin user
                 WeakReferenceMessenger.Default.Send(new LoginMessage("IsAdmin"));
+                GlobalUsername.Username = UserName; // saves the username of the user that is logged in.
                 evlpvm.LogEvent("Login", 0);
             }
             else if (bools[0] && !bools[1])
             {
                 // message to login normal user
                 WeakReferenceMessenger.Default.Send(new LoginMessage("IsUser"));
+                GlobalUsername.Username = UserName;
                 evlpvm.LogEvent("Login", 0);
             }
             else

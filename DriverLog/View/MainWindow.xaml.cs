@@ -46,8 +46,14 @@ namespace DriverLog
 
         }
 
+
+        // Method that registers messages recieved. Needs to be claled in the constructor
         private void MessageRegisterer()
         {
+
+            // Opens window depending on what message is recieved
+            // also closes current window
+
             WeakReferenceMessenger.Default.Register<LoginMessage>(this, (reciver, message) =>
             {
                 if (message.Value == "IsAdmin")

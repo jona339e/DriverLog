@@ -18,8 +18,10 @@ namespace DriverLog.ViewModel.User
     {
         public SqlHandler sqlHandler = new();
 
+        // properties bound to the input fileds of AddDriveLog (view)
+
         [ObservableProperty]
-        List<string> plateList;
+        List<string> plateList; // list of plates are bound to the combobox
 
         [ObservableProperty]
         string selectedPlate;
@@ -41,18 +43,23 @@ namespace DriverLog.ViewModel.User
 
         public AddDriveLogViewModel()
         {
-            PlateList = sqlHandler.GetPlateList();
+            PlateList = sqlHandler.GetPlateList(); // gets list of all plates from database
         }
 
         [RelayCommand]
         public void OnAddDriveCancel()
         {
+            // closes window if cancel button is pressed
             NotifyAddDriveWindowToClose();
         }
 
         [RelayCommand]
         public void OnAddDriveConfirm()
         {
+            // adds inputs as values to the DriveLogDTO object. then sends it to the database
+
+
+            // passing strings to date time in hour:min format
             DateTime TimeStart = DateTime.ParseExact(StartTime, "HH:mm", CultureInfo.CurrentCulture) ;
             DateTime TimeEnd = DateTime.ParseExact(EndTime, "HH:mm", CultureInfo.CurrentUICulture) ;
 
@@ -69,6 +76,7 @@ namespace DriverLog.ViewModel.User
             NotifyAddDriveWindowToClose();
         }
 
+        // closes window
         public void NotifyAddDriveWindowToClose()
         {
             WeakReferenceMessenger.Default.Send(new DriveLogWindowControlMessage("CloseWindow"));

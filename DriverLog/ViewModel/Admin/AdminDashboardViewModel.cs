@@ -15,6 +15,9 @@ namespace DriverLog.ViewModel
     public partial class AdminDashboardViewModel : ObservableObject
     {
 
+        // These methods all sends a message to the view corresponding to the page that needs to be shown
+
+
         [RelayCommand]
         public void OnHome()
         {

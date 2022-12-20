@@ -138,6 +138,8 @@
                   
                   >
 
+            
+            <!--creates interactivity that allows the combobox to function as a command-->
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
                     <i:InvokeCommandAction Command="{Binding DeleteShowDataCommand}" />

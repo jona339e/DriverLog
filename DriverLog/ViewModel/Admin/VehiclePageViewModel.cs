@@ -87,6 +87,8 @@ namespace DriverLog.ViewModel.Admin
         [RelayCommand]
         public void OnCreateVehicle()
         {
+            // creates vehicle in database from input
+            // triggers on button press
             VehicleModel vehicleModel = new VehicleModel();
             vehicleModel.Model = CreateModel;
             vehicleModel.Plate = CreatePlate;
@@ -104,6 +106,7 @@ namespace DriverLog.ViewModel.Admin
         [RelayCommand]
         public void OnUpdateVehicle() 
         {
+            // updates vehicle in database on button press
             VehicleModel vehicleModel = new();
             vehicleModel.Model = UpdateModel;
             vehicleModel.Plate = UpdatePlate;
@@ -120,9 +123,10 @@ namespace DriverLog.ViewModel.Admin
         [RelayCommand]
         public void OnDeleteShowVehicleData()
         {
+
             if (DeleteSelectedVehicleID != null)
             {
-
+                // populates textboxes with the data recieved from database. triggers on change in selection in the delete section.
 
                 VehicleModel vehicleModel = new();
                 vehicleModel = sqlHandler.GetVehicleData(DeleteSelectedVehicleID);
@@ -141,6 +145,7 @@ namespace DriverLog.ViewModel.Admin
         [RelayCommand]
         public void OnShowCurrentStatus()
         {
+            // gets status of vehicle from database and displays it in the textbox
             if (StatusSelectedVehicleID != null)
             {
                 string currentStatus = sqlHandler.GetStatusData(StatusSelectedVehicleID);
@@ -156,7 +161,8 @@ namespace DriverLog.ViewModel.Admin
 
         [RelayCommand]
         public void OnUpdateShowVehicleData()
-        {
+        { 
+            // Populates data from database corresponding to vehicle ID
             if (UpdateSelectedVehicleID != null)
             {
                 VehicleModel vehicleModel = new();
@@ -176,7 +182,7 @@ namespace DriverLog.ViewModel.Admin
         [RelayCommand]
         public void OnDeleteVehicle()
         {
-
+            // deletes vehicle in database & updates list of IDs
             sqlHandler.DeleteVehicle(DeleteSelectedVehicleID);
             MessageBox.Show($"Vehicle {DeleteModel} - {DeletePlate} Deleted");
 
@@ -190,6 +196,8 @@ namespace DriverLog.ViewModel.Admin
         [RelayCommand]
         public void OnChangeStatus()
         {
+            // creates or edits status for vehicle
+
             sqlHandler.UpdateStatus(ChangeStatus, statusSelectedVehicleID);
 
             MessageBox.Show($"Oprettet Status: {ChangeStatus}");
@@ -205,6 +213,7 @@ namespace DriverLog.ViewModel.Admin
 
         public void UpdateIDList()
         {
+            // clears ID list and re populate them from the database
             vehicleList.Clear();
             vehicleList = sqlHandler.GetVehicleIDList();
             UpdateVehicleID = vehicleList;
@@ -213,9 +222,10 @@ namespace DriverLog.ViewModel.Admin
 
         }
 
-
         private void SetValuesToEmpty()
         {
+            // sets values to null or empty for all input fields
+
             UpdateSelectedVehicleID = null;
             UpdateModel = string.Empty;
             UpdatePlate = string.Empty;

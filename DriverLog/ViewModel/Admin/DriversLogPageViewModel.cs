@@ -12,6 +12,7 @@ namespace DriverLog.ViewModel.Admin
 {
     public partial class DriversLogPageViewModel : ObservableObject
     {
+        // properties for lists of users and plates, selected user and plates, and lists to populate the grids with.
         [ObservableProperty]
         public List<String> driveUserList;
 
@@ -30,15 +31,19 @@ namespace DriverLog.ViewModel.Admin
         [ObservableProperty]
         public List<DriveLogDTO> plateLogData;
 
-
+        
         public DriversLogPageViewModel()
         {
+            // constructor that gets 2 lists from database and sets them to lists that are observable
             SqlHandler sqlHandler = new SqlHandler();
             DriveUserList = sqlHandler.GetUsernameList();
             DrivePlateList = sqlHandler.GetPlateList();
         }
 
-
+        //method that changes the grid based on what user is selected
+        //this method triggers whenever a user is changed in the combobox in DriversLogPage
+        //previously I have been using i:interactivity in the view to make this happen
+        //but then I found community toolkits comes with a function for it.
         partial void OnSelectedUserChanged(string value)
         {
             if (SelectedUser != null)

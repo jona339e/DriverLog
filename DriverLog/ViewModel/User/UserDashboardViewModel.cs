@@ -13,16 +13,14 @@ namespace DriverLog.ViewModel.User
     public partial class UserDashboardViewModel : ObservableObject
     {
 
+        // Sends message to open a window on button press
         [RelayCommand]
         public void OnNewDriveLog()
         {
-            NotifyThisToOpenDriveLog();
-        }
-
-        public void NotifyThisToOpenDriveLog()
-        {
             WeakReferenceMessenger.Default.Send(new DriveLogWindowControlMessage("OpenWindow"));
         }
+
+ 
 
     }
 }

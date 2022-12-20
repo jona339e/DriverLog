@@ -73,11 +73,6 @@ namespace DriverLog.ViewModel.Admin
 
 
 
-
-
-
-
-
         // Constructor
 
         public UserPageViewModel()
@@ -89,7 +84,6 @@ namespace DriverLog.ViewModel.Admin
 
 
         // Command Bound Methods
-
         [RelayCommand]
         public void OnCreateUser()
         {
@@ -120,6 +114,7 @@ namespace DriverLog.ViewModel.Admin
         [RelayCommand]
         public void OnUpdateUser()
         {
+            // sets input to the object usermodel and sends it to sqlhandler
             UserModel um = new();
             um.Username = UpdateUsername;
             um.Password = UpdatePassword;
@@ -138,9 +133,16 @@ namespace DriverLog.ViewModel.Admin
 
         }
 
+
+        // this method triggers when the combobox is changed in the delete section of the program
+
         [RelayCommand]
         public void OnDeleteShowData()
         {
+            // if the selected user is not null
+            // get userdata from ID
+            // set properties to the data retrieved
+            // else set properties to null/empty
             if (DeleteSelectedUserID != null)
             {
                 UserModel um = new();
@@ -159,6 +161,7 @@ namespace DriverLog.ViewModel.Admin
             }
         }
 
+        // method to delete selected user, happens on button click
         [RelayCommand]
         public void OnDeleteUser()
         {
@@ -171,7 +174,7 @@ namespace DriverLog.ViewModel.Admin
 
 
         // Methods
-
+        // clears id list and updates it
         private void UpdateMyIDS()
         {
             IDLIST.Clear();
