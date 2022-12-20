@@ -20,7 +20,5 @@ namespace DriverLog.ViewModel.User
             WeakReferenceMessenger.Default.Send(new DriveLogWindowControlMessage("OpenWindow"));
         }
 
- 
-
     }
 }

@@ -25,6 +25,7 @@ namespace DriverLog.Model
 
         public List<int> GetUserIDList()
         {
+            // gets a complete list of userIDs from the database. and returns it as a list of ints
             List<int> list = new List<int>();
             try
             {
@@ -56,7 +57,7 @@ namespace DriverLog.Model
 
         public int GetIdFromUsername()
         {
-            // connection is open???
+            // gets the userID corresponding to the user that logged in.
             int userID = 0;
             try
             {
@@ -96,25 +97,25 @@ namespace DriverLog.Model
                 conn.Open();
                 {
                     cmnd = new("SELECT Username, [Password], IsAdmin FROM [USER] where Username = @LoginUserName", conn);
-                    cmnd.Parameters.AddWithValue("@LoginUserName", username);
+                    cmnd.Parameters.AddWithValue("@LoginUserName", username); // sql injection prevention
                     cmnd.Parameters.AddWithValue("@LoginUserPsw", password);
                     dr = cmnd.ExecuteReader();
                     while (dr.Read())
                     {
                         if (dr.GetString(0) == username && dr.GetString(1) == password)
                         {
-                            if (dr.GetBoolean(2))
+                            if (dr.GetBoolean(2)) // user exists and is admin
                             {
                                 list[0] = true;
                                 list[1] = true;
                             }
-                            else
+                            else // user exists and is not admin
                             {
                                 list[0] = true;
                                 list[1] = false;
                             }
                         }
-                        else
+                        else // user does not exist
                         {
                             list[0] = false;
                             list[1] = false;
@@ -124,9 +125,9 @@ namespace DriverLog.Model
             }
             catch (Exception ex)
             {
-                ErrorCatch(ex);
+                ErrorCatch(ex); // logs error in event log
             }
-            finally
+            finally // closes sql connections
             {
                 dr.Close();
                 cmnd.Dispose();
@@ -143,6 +144,7 @@ namespace DriverLog.Model
         // ADMIN - USER METHODS
         public void CreateUser(UserModel um)
         {
+            // creates user in database
             try
             {
                 conn.Open();
@@ -171,6 +173,7 @@ namespace DriverLog.Model
 
         public void UpdateUser(UserModel um, int? userID)
         {
+            // updates an existing user in database
             try
             {
                 conn.Open();
@@ -199,6 +202,7 @@ namespace DriverLog.Model
 
         public UserModel GetUserData(int? userID)
         {
+            // retrieves userdata from database and returns it as an object
             UserModel um = new();
 
             try
@@ -232,6 +236,7 @@ namespace DriverLog.Model
 
         public void DeleteUser(int? userID)
         {
+            // deletes user from database
             try
             {
                 conn.Open();
@@ -260,6 +265,7 @@ namespace DriverLog.Model
 
         public void CreateVehicle(VehicleModel vm)
         {
+            // creates vehicle in database
             try
             {
                 conn.Open();
@@ -287,6 +293,8 @@ namespace DriverLog.Model
 
         public void UpdateVehicle(VehicleModel vm, int? ID)
         {
+
+            // updates existing vehicle in database
             try
             {
                 conn.Open();
@@ -314,6 +322,7 @@ namespace DriverLog.Model
 
         public VehicleModel GetVehicleData(int? vehicleID)
         {
+            // retrieves vehicle from database and returns it as an object
             VehicleModel vm = new();
             try
             {
@@ -345,6 +354,7 @@ namespace DriverLog.Model
 
         public void UpdateStatus(string? status, int? ID)
         {
+            // updates status for vehicle in database
             try
             {
                 conn.Open();
@@ -371,6 +381,7 @@ namespace DriverLog.Model
 
         public List<int> GetVehicleIDList()
         {
+            // gets list of vehicle IDs and returns the list
             List<int> list = new List<int>();
             try
             {
@@ -400,6 +411,7 @@ namespace DriverLog.Model
 
         public void DeleteVehicle(int? vehicleID)
         {
+            // deletes vehicle from database
             try
             {
                 conn.Open();
@@ -425,6 +437,7 @@ namespace DriverLog.Model
 
         public string GetStatusData(int? statusSelectedVehicleID)
         {
+            // gets status of vehicle from database
             string status = "";
             try
             {
@@ -459,6 +472,7 @@ namespace DriverLog.Model
 
         public void AddEventLog(EventLogModel elm)
         {
+            // Creates an eventLog in the database
             try
             {
                 conn.Open();
@@ -489,6 +503,7 @@ namespace DriverLog.Model
 
         public List<EventLogDTO> GetEventLogList()
         {
+            // gets all eventlogs from database and returns them as a list of eventlogs objects
             List<EventLogDTO> eventLogDTO= new List<EventLogDTO>();
             try
             {
@@ -524,6 +539,8 @@ namespace DriverLog.Model
         // sql Error handling
         private void ErrorCatch(Exception ex)
         {
+            // closes the connection for good measure
+            // adds eventlog with exception message, log level and username
             conn.Close();
             EventLogSubViewModel ELog = new();
             AddEventLog(ELog.LogEvent(ex.Message, LogLevel.Error, GetIdFromUsername()));
@@ -534,6 +551,7 @@ namespace DriverLog.Model
 
         public List<string> GetPlateList()
         {
+            // gets a list of plates from vehicles in the database. returns them as a líst of strings
             List<string> PlateList = new List<string>();
             try
             {
@@ -562,6 +580,7 @@ namespace DriverLog.Model
 
         public void CreateDriveLog(DriveLogDTO AddDTO)
         {
+            // creates a drivelog
             try
             {
                 conn.Open();
@@ -592,6 +611,7 @@ namespace DriverLog.Model
 
         internal List<string> GetUsernameList()
         {
+            // gets a complete list of usernames from database
             List<string> names = new();
             try
             {
@@ -620,6 +640,8 @@ namespace DriverLog.Model
 
         internal List<DriveLogDTO> GetDriveLog(string SelectedUser)
         {
+            // gets all drive logs from the database that a chosen user participated in.
+            // returns a list of these drivelogs
             List<DriveLogDTO> data = new();
             try
             {
