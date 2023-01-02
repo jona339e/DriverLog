@@ -72,12 +72,16 @@ namespace DriverLog.ViewModel.Admin
         [ObservableProperty]
         public string? changeStatus;
 
+        [ObservableProperty]
+        List<VehicleModel> vehicleView; // Id - Model - Pate - status
+
 
 
         // Constructor
         public VehiclePageViewModel()
         {
             vehicleList = sqlHandler.GetUserIDList();
+            UpdateGrid();
             UpdateIDList();
         }
 
@@ -100,6 +104,7 @@ namespace DriverLog.ViewModel.Admin
             MessageBox.Show($"Oprettede {vehicleModel.Model} med Nr. Plade: {vehicleModel.Plate}");
             UpdateIDList();
             elsvm.LogEvent("Vehicle Created", LogLevel.Information);
+            UpdateGrid();
 
         }
 
@@ -118,6 +123,7 @@ namespace DriverLog.ViewModel.Admin
             SetValuesToEmpty();
             elsvm.LogEvent("Vehicle Edited", LogLevel.Information);
 
+            UpdateGrid();
         }
 
         [RelayCommand]
@@ -188,7 +194,7 @@ namespace DriverLog.ViewModel.Admin
 
             UpdateIDList();
             elsvm.LogEvent("Vehicle Deleted", LogLevel.Information);
-
+            UpdateGrid();
 
         }
 
@@ -204,12 +210,17 @@ namespace DriverLog.ViewModel.Admin
 
             SetValuesToEmpty();
             elsvm.LogEvent("Vehicle Status Created", LogLevel.Information);
-
+            UpdateGrid();
 
         }
 
 
         // Regular Methods
+
+        public void UpdateGrid()
+        {
+            VehicleView = sqlHandler.GetVehicleGrid();
+        }
 
         public void UpdateIDList()
         {

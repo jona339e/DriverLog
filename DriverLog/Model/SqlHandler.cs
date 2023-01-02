@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -260,6 +261,41 @@ namespace DriverLog.Model
             }
         }
 
+        public List<UserModel> GetUserGridList()
+        {
+            List<UserModel> lum = new();
+            try
+            {
+                conn.Open();
+                {
+                    cmnd = new("SELECT * FROM [USER]", conn);
+
+                    dr = cmnd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        UserModel um = new();
+                        um.Id = dr.GetInt32(0);
+                        um.Username = dr.GetString(1);
+                        um.Password = dr.GetString(2);
+                        um.Date = dr.GetDateTime(3);
+                        um.IsAdmin= dr.GetBoolean(4);
+                        lum.Add(um);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorCatch(ex);
+            }
+            finally 
+            {
+                dr.Close();
+                cmnd.Dispose();
+                conn.Close();
+            }
+            return lum;
+        }
+
 
         // ADMIN - VEHICLE METHODS
 
@@ -466,7 +502,38 @@ namespace DriverLog.Model
             return status;
         }
 
+        public List<VehicleModel> GetVehicleGrid()
+        {
+            List<VehicleModel> lvm = new();
+            try
+            {
+                conn.Open();
+                {
+                    cmnd = new("SELECT * FROM VEHICLE", conn);
+                    dr= cmnd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        VehicleModel vm = new();
 
+                        vm.Id = dr.GetInt32(0);
+                        vm.Model= dr.GetString(1);
+                        vm.Plate= dr.GetString(2);
+                        vm.Status= dr.GetString(3);
+
+                        lvm.Add(vm);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorCatch(ex);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return lvm;
+        }
 
         // EventLog
 
@@ -638,18 +705,23 @@ namespace DriverLog.Model
             return names;
         }
 
-        internal List<DriveLogDTO> GetDriveLog(string SelectedUser)
+        internal List<DriveLogDTO> GetDriveLog(string Selection, bool isUser)
         {
-            // gets all drive logs from the database that a chosen user participated in.
+            // gets all drive logs from the database that a chosen user or vehicle plate participated in.
             // returns a list of these drivelogs
             List<DriveLogDTO> data = new();
             try
             {
                 conn.Open();
                 {
-                    cmnd = new("SELECT Username, Plate, Date, StartTime, EndTime, Distance FROM DriveLog WHERE Username = @user", conn);
-                    cmnd.Parameters.AddWithValue("@user", SelectedUser);
-
+                    if (isUser) { 
+                        cmnd = new("SELECT Username, Plate, Date, StartTime, EndTime, Distance FROM DriveLog WHERE Username = @user", conn);
+                        cmnd.Parameters.AddWithValue("@user", Selection);
+                    }
+                    else if (!isUser) {
+                        cmnd = new("SELECT Username, Plate, Date, StartTime, EndTime, Distance FROM DriveLog WHERE Plate = @plate", conn);
+                        cmnd.Parameters.AddWithValue("@plate", Selection);
+                    }
                     dr = cmnd.ExecuteReader();
                     while (dr.Read()) 
                     {
@@ -657,15 +729,9 @@ namespace DriverLog.Model
 
                         dto.Username = dr.GetString(0);
                         dto.Plate = dr.GetString(1);
-
-                        // Convert the datetime to HH:mm format
-
                         dto.Date = dr.GetDateTime(2);
                         dto.StartTime = dr.GetDateTime(3);
                         dto.EndTime = dr.GetDateTime(4);
-
-
-
                         dto.Distance = dr.GetInt32(5);
 
                         data.Add(dto);

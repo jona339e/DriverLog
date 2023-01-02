@@ -59,6 +59,13 @@ namespace DriverLog.ViewModel
 
         }
 
+        [RelayCommand]
+        public void OnLogOut() 
+        {
+            MainWindow mw = new();
+            mw.Show();
+            WeakReferenceMessenger.Default.Send(new AdminWindowControlMessage("CloseWindow"));
+        }
 
     }
 }

@@ -40,23 +40,27 @@ namespace DriverLog.ViewModel.Admin
             DrivePlateList = sqlHandler.GetPlateList();
         }
 
-        //method that changes the grid based on what user is selected
-        //this method triggers whenever a user is changed in the combobox in DriversLogPage
-        //previously I have been using i:interactivity in the view to make this happen
-        //but then I found community toolkits comes with a function for it.
+        // method that changes the grid based on what user is selected
+        // this method triggers whenever a user is changed in the combobox in DriversLogPage
+        // previously I have been using i:interactivity in the view to make this happen
+        // but then I found community toolkits comes with a function for it.
         partial void OnSelectedUserChanged(string value)
         {
             if (SelectedUser != null)
             {
                 SqlHandler sqlHandler = new();
-                UserLogData = sqlHandler.GetDriveLog(SelectedUser);
+                UserLogData = sqlHandler.GetDriveLog(SelectedUser, true);
             }
         }
 
-        //partial void OnDrivePlateListChanged(List<string> value)
-        //{
-
-        //}
+        partial void OnSelectedPlateChanged(string value)
+        {
+            if (SelectedPlate != null)
+            {
+                SqlHandler sqlHandler = new();
+                PlateLogData = sqlHandler.GetDriveLog(SelectedPlate, false);
+            }
+        }
 
     }
 }

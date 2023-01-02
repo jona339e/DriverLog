@@ -71,13 +71,17 @@ namespace DriverLog.ViewModel.Admin
         [ObservableProperty]
         public bool deleteIsAdmin;
 
+        // Grid
 
+        [ObservableProperty]
+        public List<UserModel> userView; // ID - Username - Password - Date Created - IsAdmin
 
         // Constructor
 
         public UserPageViewModel()
         {
             IDLIST = sqlHandler.GetUserIDList();
+            UserView = sqlHandler.GetUserGridList();
             UpdateMyIDS();
         }
 

@@ -195,8 +195,25 @@
 <!--#endregion--> <!-- Create Stuats Region -->        
 
         <!--GRID-->
-        <DataGrid Grid.Row="12" Grid.Column="4" Grid.ColumnSpan="4"
-                  Height="200" Margin="10,20,10,10"/>
+        <DataGrid Grid.Row="12" Grid.Column="3" Grid.ColumnSpan="6"
+                  Height="200" Margin="10,20,10,10"
+                  AlternatingRowBackground="AntiqueWhite"
+                  ItemsSource="{Binding VehicleView}" CanUserAddRows="False"
+                  AutoGenerateColumns="False" CanUserResizeColumns="False"
+                  ScrollViewer.CanContentScroll="True" 
+                  ScrollViewer.VerticalScrollBarVisibility="Visible">
+
+            <DataGrid.Columns>
+
+                <!--predefines the columns in the grid and sets it's width -->
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
+                <DataGridTextColumn Header="Model" Binding="{Binding Model}" Width="150"/>
+                <DataGridTextColumn Header="Nr. Plade" Binding="{Binding Plate}" Width="150"/>
+                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="150"/>
+
+            </DataGrid.Columns>
+            
+        </DataGrid>
 
 
     </Grid>

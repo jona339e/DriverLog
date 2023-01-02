@@ -162,8 +162,26 @@
 
 
         <!--GRID-->
-        <DataGrid Grid.Row="8" Grid.Column="3" Grid.ColumnSpan="4"
-                  Height="200" Margin="10,30,10,10"/>
+        <DataGrid Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="6"
+                  Height="200" Margin="10,30,10,10"
+                  AlternatingRowBackground="AntiqueWhite"
+                  ItemsSource="{Binding UserView}" CanUserAddRows="False"
+                  AutoGenerateColumns="False" CanUserResizeColumns="False"
+                  ScrollViewer.CanContentScroll="True" 
+                  ScrollViewer.VerticalScrollBarVisibility="Visible">
+
+            <DataGrid.Columns>
+
+                <!--predefines the columns in the grid and sets it's width -->
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
+                <DataGridTextColumn Header="Username" Binding="{Binding Username}" Width="150"/>
+                <DataGridTextColumn Header="Password" Binding="{Binding Password}" Width="150"/>
+                <DataGridTextColumn Header="Oprettet" Binding="{Binding Date}" Width="150"/>
+                <DataGridTextColumn Header="Er Admin" Binding="{Binding IsAdmin}" Width="150"/>
+
+            </DataGrid.Columns>
+
+        </DataGrid>
 
     </Grid>
 </Page>

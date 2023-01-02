@@ -37,6 +37,18 @@ namespace DriverLog.View
             // Gets messages / notifications and displays a page, on the main frame, based on the message value
 
             MessageRegisterer();
+            RegisterLogOut();
+        }
+
+        private void RegisterLogOut()
+        {
+            WeakReferenceMessenger.Default.Register<AdminWindowControlMessage>(this, (reciever, message) =>
+            {
+                if (message.Value == "CloseWindow")
+                {
+                    this.Close();
+                }
+            });
         }
 
         private void MessageRegisterer()

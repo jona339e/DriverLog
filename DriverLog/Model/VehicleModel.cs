@@ -8,6 +8,7 @@ namespace DriverLog.Model
 {
     public class VehicleModel
     {
+        public int Id { get; set; }
         public string? Model { get; set; }
         public string? Plate { get; set; }
         public string? Status { get; set; } = string.Empty;

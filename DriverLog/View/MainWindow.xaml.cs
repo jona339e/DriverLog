@@ -42,13 +42,14 @@ namespace DriverLog
             //    }
             //}); 
 
-            MessageRegisterer();
+            RegisterLogin();
 
         }
 
 
+
         // Method that registers messages recieved. Needs to be claled in the constructor
-        private void MessageRegisterer()
+        private void RegisterLogin()
         {
 
             // Opens window depending on what message is recieved
