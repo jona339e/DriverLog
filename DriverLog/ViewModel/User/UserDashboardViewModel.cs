@@ -25,6 +25,7 @@ namespace DriverLog.ViewModel.User
             WeakReferenceMessenger.Default.Send(new DriveLogWindowControlMessage("OpenWindow"));
         }
 
+        // Creates new instance of MainWindow - Login page - and shows it, then sends a message to close userdashboardwindow.
         [RelayCommand]
         public void OnLogOut()
         {
@@ -34,6 +35,8 @@ namespace DriverLog.ViewModel.User
            
         }
 
+
+        // used to update the list of drivelogs, data corresponds to logged in user.
         public UserDashboardViewModel()
         {
             listDriveLog = sqlhandler.GetDriveLog(GlobalUsername.Username, true);

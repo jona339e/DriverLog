@@ -43,7 +43,7 @@ namespace DriverLog.ViewModel.Admin
         // method that changes the grid based on what user is selected
         // this method triggers whenever a user is changed in the combobox in DriversLogPage
         // previously I have been using i:interactivity in the view to make this happen
-        // but then I found community toolkits comes with a function for it.
+        // but then I found community toolkits comes with a method for it.
         partial void OnSelectedUserChanged(string value)
         {
             if (SelectedUser != null)
@@ -61,6 +61,5 @@ namespace DriverLog.ViewModel.Admin
                 PlateLogData = sqlHandler.GetDriveLog(SelectedPlate, false);
             }
         }
-
     }
 }
