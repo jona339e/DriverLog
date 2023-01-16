@@ -23,7 +23,7 @@ namespace DriverLog.ViewModel
         EventLogSubViewModel evlpvm = new();
 
         [ObservableProperty]
-        private string? userName = "Jonas";
+        private string? userName = "";
 
         // Using ObservableProperty attribute generates the following
 
@@ -40,7 +40,7 @@ namespace DriverLog.ViewModel
         //public event PropertyChangedEventHandler? PropertyChanged;
 
         [ObservableProperty]
-        private string? passWord = "123";
+        private string? passWord = "";
 
 
 
