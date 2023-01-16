@@ -39,7 +39,7 @@
                   Height="400" Width="650" 
                   AlternatingRowBackground="AntiqueWhite"
                   ItemsSource="{Binding EventLogs}" CanUserAddRows="False"
-                  AutoGenerateColumns="False" CanUserResizeColumns="False"
+                  AutoGenerateColumns="False" CanUserResizeColumns="true"
                   ScrollViewer.CanContentScroll="True" 
                   ScrollViewer.VerticalScrollBarVisibility="Visible">
 
